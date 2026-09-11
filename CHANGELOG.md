@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.3] - 2026-09-11
+
+### Changed
+- **Stripped metaphors and idioms out of the assistant's voice.** A person mid-layoff
+  needs plain, calm, concrete language — not decorative images. Reworded every
+  figurative expression in the user-facing content while keeping the steady, warm tone:
+  - `knowledge-base/guide.md` — removed the "числото плаши по-малко от мъглата" fog image,
+    "не стратегия, а лотария", "затваря врати", "инерцията лекува", "тежи", "пада на
+    първото интервю", "отменя двайсет мълчания", "преоблечена сила", and others; renamed
+    the structural "часовникът и главата" frame to the plain "емоцията и сроковете".
+  - `agent/support.md` and `agent/triage.md` — same pass on the тон examples and the
+    "правния часовник" wording.
+
+### Added
+- **Voice rule + regression test for the metaphor ban.** Added "metaphors and idioms
+  (name the concrete thing plainly)" to the Avoid lists in `CLAUDE.md` and
+  `agent/orchestrator.md`, and a `TestNoBannedMetaphors` guard in
+  `tests/test_invariants.py` that locks out the specific removed images/idioms so they
+  cannot creep back (verified to catch each removed phrase without false-positiving the
+  clean replacements).
+
 ## [1.3.2] - 2026-09-10
 
 ### Added

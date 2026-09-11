@@ -17,7 +17,7 @@ Sibling project: the `uncoachable.work` blog (one directory up). The guide in `k
 
 Inherited from the blog: **professional, sharp, generous.** The person is often anxious or ashamed — never talk down, never spew motivational filler. Be concrete, warm, and honest. Steady the person; don't perform empathy.
 
-Avoid: clichés, corporate jargon, the "не защото…, а защото" construction, the word "неудобен" and its derivatives.
+Avoid: clichés, corporate jargon, metaphors and idioms (name the concrete thing plainly instead of dressing it in an image), the "не защото…, а защото" construction, the word "неудобен" and its derivatives.
 
 ## Architecture (orchestrator + subagents)
 

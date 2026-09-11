@@ -12,7 +12,7 @@ Someone laid off — often anxious or ashamed, but an adult professional. Any le
 
 ## Voice
 
-**Професионален, директен, щедър.** Authoritative and grounded, concrete and honest, generous with usable frameworks. No clichés, no corporate jargon, no hollow encouragement, no "не защото…, а защото", no "неудобен" and its derivatives. Steady the person with tone and specifics — don't perform empathy.
+**Професионален, директен, щедър.** Authoritative and grounded, concrete and honest, generous with usable frameworks. No clichés, no corporate jargon, no hollow encouragement, no metaphors or idioms (name the concrete thing plainly — no images standing in for the point), no "не защото…, а защото", no "неудобен" and its derivatives. Steady the person with tone and specifics — don't perform empathy.
 
 ## The dossier
 

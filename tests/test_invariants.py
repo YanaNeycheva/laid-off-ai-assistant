@@ -239,6 +239,86 @@ class TestForbiddenPhrases(unittest.TestCase):
         )
 
 
+class TestNoBannedMetaphors(unittest.TestCase):
+    """Metaphors and idioms are banned from the assistant's Bulgarian voice
+    (see the 'Voice' rule in CLAUDE.md / orchestrator.md: 'name the concrete
+    thing plainly instead of dressing it in an image').
+
+    This is a *regression guard*, not a metaphor detector: a regex cannot find
+    "any metaphor", but it can lock out the specific images and idioms that were
+    removed, so they cannot creep back in later edits.
+
+    Scope: pure user-facing content (knowledge-base/, agent/templates/) plus the
+    two person-facing playbooks whose Тон examples model the voice directly
+    (agent/support.md, agent/triage.md). It deliberately excludes CLAUDE.md and
+    orchestrator.md — those *state* the ban and would self-flag.
+    """
+
+    # Directory trees walked recursively for *.md.
+    SCANNED_DIRS = [
+        ("knowledge-base",),
+        ("agent", "templates"),
+    ]
+    # Individual playbook files (their Тон examples are modelled speech).
+    EXTRA_FILES = [
+        ("agent", "support.md"),
+        ("agent", "triage.md"),
+    ]
+
+    # Specific images/idioms that were removed. Patterns are narrow on purpose
+    # (anchored to the metaphorical collocation, not a bare common word) so a
+    # future *literal* use of the same word does not false-positive.
+    BANNED = [
+        ("'мъгла' като образ на несигурност",
+         re.compile(r"мъгл\w*", re.IGNORECASE)),
+        ("'плаши по-малко' конструкция",
+         re.compile(r"плаши\s+по-?\s*малко", re.IGNORECASE)),
+        ("'лотария' метафора",
+         re.compile(r"\bлотари\w*", re.IGNORECASE)),
+        ("'затваря врати' идиом",
+         re.compile(r"затваря\w*\s+врати", re.IGNORECASE)),
+        ("'инерцията лекува' / 'лекува повече от почивката' метафора",
+         re.compile(r"инерци\w*\s+лекува|лекува\s+повече\s+от\s+почивката",
+                    re.IGNORECASE)),
+        ("'правния часовник' / 'часовникът и главата' рамка",
+         re.compile(r"правни\w*\s+часовник|часовник\w*\s+и\s+главата",
+                    re.IGNORECASE)),
+        ("'преоблечена сила' метафора",
+         re.compile(r"преоблеч\w+\s+сила", re.IGNORECASE)),
+        ("'планината на едно камъче' идиом",
+         re.compile(r"планина\w*\s+на\s+едно\s+камъче", re.IGNORECASE)),
+    ]
+
+    def _content_files(self):
+        for parts in self.SCANNED_DIRS:
+            root = os.path.join(REPO_ROOT, *parts)
+            if not os.path.isdir(root):
+                continue
+            for dirpath, _dirs, files in os.walk(root):
+                for name in files:
+                    if name.endswith(".md"):
+                        yield os.path.join(dirpath, name)
+        for parts in self.EXTRA_FILES:
+            path = os.path.join(REPO_ROOT, *parts)
+            if os.path.isfile(path):
+                yield path
+
+    def test_no_banned_metaphors_in_the_voice(self):
+        hits = []
+        for path in self._content_files():
+            with open(path, encoding="utf-8") as fh:
+                for lineno, line in enumerate(fh, 1):
+                    for label, pat in self.BANNED:
+                        if pat.search(line):
+                            rel = os.path.relpath(path, REPO_ROOT)
+                            hits.append(f"{rel}:{lineno} [{label}] {line.strip()}")
+        self.assertEqual(
+            hits, [],
+            "Banned metaphor/idiom in the assistant's voice "
+            "(name the concrete thing plainly):\n  " + "\n  ".join(hits),
+        )
+
+
 class TestFreshnessGateWired(unittest.TestCase):
     """The orchestrator must still route bg-navigator output through the
     freshness-checker gate."""
