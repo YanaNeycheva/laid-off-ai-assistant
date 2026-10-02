@@ -34,7 +34,7 @@ Greet the person in your own voice (see the opening example in `orchestrator.md`
 
 - Hold triage + the emotional thread yourself; never delegate those.
 - For bounded work, **update the dossier**, then delegate to the right subagent with a self-contained brief ("read the dossier at `Personal/<date>-<slug>/dossier.md`, here's the task + delta"):
-  - `cv-builder` — CV build / ATS clean / tailor (runs `/tailor-cv`).
+  - `cv-builder` — CV build / ATS clean (runs `/build-cv`, no posting) / tailor to a posting (runs `/tailor-cv`).
   - `interview-coach` — mock interviews, the layoff story, delivery.
   - `search-strategist` — target profile, networking plan, tracker, outreach.
   - `bg-navigator` — BG benefits/deadlines/money (first days especially).

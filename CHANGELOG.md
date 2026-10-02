@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.0] - 2026-10-02
+
+### Added
+- **`/build-cv` skill** (`.claude/skills/build-cv/`) — creates the canonical base CV from scratch or
+  ATS-cleans an existing one, **with no job posting required**. Splits CV work cleanly: `build-cv`
+  owns the base CV (output in the workspace root); `/tailor-cv` tailors a clean base to a specific
+  posting (output in a dated position folder). It reuses `tailor-cv`'s `ats-rules.md` and
+  `proofing.md` as the single source of truth — no duplicated ruleset. Initial data flows from the
+  dossier (the existing `/comeback` intake), with a cold-start bootstrap for direct invocation.
+- `tests/test_invariants.py::TestBuildCvSkillWired` — guards that the skill exists, reuses the shared
+  ATS rules, and stays wired into both the orchestrator routing and the `cv-builder` subagent.
+
+### Changed
+- `cv-builder` now selects between `/build-cv` (no posting) and `/tailor-cv` (posting) by the task in
+  its brief; the orchestrator's routing table and CV-brief logic distinguish the two cases.
+- `tools/gen_agents.py` neutralizes `/build-cv` skill references for the generated non-Claude trees,
+  symmetric with the existing `/tailor-cv` handling; trees regenerated.
+- README and CLAUDE.md describe the two-skill CV engine.
+
 ## [1.6.1] - 2026-09-15
 
 ### Added

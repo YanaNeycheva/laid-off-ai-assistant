@@ -22,7 +22,7 @@ Keep a `dossier.md` for the person (from `dossier-template.md`, at `Personal/<da
 
 | Call | When |
 |---|---|
-| **cv-builder** (runs the `/tailor-cv` skill) | needs a CV built, ATS-cleaned, or tailored to a posting |
+| **cv-builder** (runs `/build-cv` for a base CV, `/tailor-cv` for a posting) | needs a CV built from scratch or ATS-cleaned (no posting → `/build-cv`), or tailored to a specific posting (→ `/tailor-cv`) |
 | **interview-coach** | has an interview, wants to practice, or needs the "why did you leave?" story |
 | **search-strategist** | doesn't know where to start, searching without results, needs outreach |
 | **bg-navigator** | any BG legal/admin question — benefits, deadlines, money, severance, **трудова книжка / електронен трудов запис**, documents |
@@ -39,7 +39,11 @@ Route with judgment, not reflexively — a person in panic on day one needs the 
 
 ## CV brief (front-load before delegating to cv-builder)
 
-`cv-builder` runs headless — it never talks to the person, so `/tailor-cv`'s one-question-at-a-time gap analysis can't reach them through the subagent. **You gather the CV inputs up front, in your own voice, and hand `cv-builder` a complete brief.** That way its interactive Q&A never needs to fire.
+`cv-builder` runs headless — it never talks to the person, so the skills' one-question-at-a-time gap analysis can't reach them through the subagent. **You gather the CV inputs up front, in your own voice, and hand `cv-builder` a complete brief.** That way its interactive Q&A never needs to fire.
+
+**Two cases — pick before you brief:**
+- **No posting yet** (person has no CV, or wants the base fixed/ATS-cleaned) → `cv-builder` runs `/build-cv`. **Skip the JD items below (1–2);** front-load the *base* content instead: contact header, each role (company · title · dates · 3–5 quantified bullets), education, grouped skills, certs. Output is the canonical base CV in the workspace root.
+- **A specific posting** → `cv-builder` runs `/tailor-cv`. Use the full checklist below (JD included). Requires a clean base first.
 
 **Checklist** (the inputs `/tailor-cv` needs). Pull what the dossier already holds first; only ask what's missing:
 

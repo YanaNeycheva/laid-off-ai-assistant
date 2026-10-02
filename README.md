@@ -62,7 +62,7 @@ You steer it in plain language. A few examples of what to say and what happens:
 | „Разкажи ми за тази компания преди интервюто" *(paste the posting)* | Fit read, „защо точно тук" angles, and questions to ask |
 | *(feeling low / overwhelmed)* | The steadying layer is always on — you don't have to ask |
 
-**CV only?** If all you want is a tailored CV, you can invoke **`/tailor-cv`** directly.
+**CV only?** You can invoke the CV engine directly: **`/build-cv`** to create or ATS-clean your base CV (no job posting needed), or **`/tailor-cv`** to tailor a clean base to a specific posting.
 
 ### What you get, and where
 Everything produced **for you** lives in a private, **git-ignored** `Personal/<date>-you/` folder — so nothing about your situation is ever committed to the repo:
@@ -79,7 +79,7 @@ One **orchestrator** is the single voice you talk to. It holds the relationship 
 agent/            orchestrator (the voice), triage, always-on support, dossier schema
 .claude/agents/   the subagents (authored here): cv-builder, interview-coach, search-strategist,
                   bg-navigator, company-intel, and the freshness-checker verifier
-.claude/skills/   /comeback (the front door) and /tailor-cv (the CV engine)
+.claude/skills/   /comeback (the front door), /build-cv (base CV) and /tailor-cv (tailor to a posting)
 .opencode/agents/ the same agents, generated for OpenCode from .claude/ (tools/gen_agents.py)
 knowledge-base/   the Bulgarian guide + BG legal/benefits facts + sources
 scripts/          harness-independent CV .docx/.pdf + tracker .xlsx output

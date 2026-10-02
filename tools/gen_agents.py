@@ -53,6 +53,7 @@ PROSE_SUBS = [
     (r"\bWebFetch\b", "web fetch"),
     (r"via Bash", "in a shell"),
     (r"`?/tailor-cv`? skill", "tailor-cv flow (read & follow `.claude/skills/tailor-cv/SKILL.md`)"),
+    (r"`?/build-cv`? skill", "build-cv flow (read & follow `.claude/skills/build-cv/SKILL.md`)"),
 ]
 
 

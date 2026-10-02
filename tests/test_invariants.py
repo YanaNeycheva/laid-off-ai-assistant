@@ -332,5 +332,41 @@ class TestBgLegalDnevnik(unittest.TestCase):
         )
 
 
+class TestBuildCvSkillWired(unittest.TestCase):
+    """The /build-cv skill (base CV from scratch or ATS clean-up, no posting)
+    must exist, declare its name, reuse tailor-cv's shared rules rather than
+    duplicating them, and stay wired into both the orchestrator's routing and
+    the cv-builder subagent."""
+
+    def test_build_cv_skill_exists_and_is_named(self):
+        fm = _split_frontmatter(_read(".claude", "skills", "build-cv", "SKILL.md"))
+        self.assertRegex(
+            fm, r"(?m)^name:\s*build-cv\s*$",
+            "build-cv/SKILL.md frontmatter must declare `name: build-cv`",
+        )
+
+    def test_build_cv_reuses_shared_ats_rules(self):
+        # Single source of truth: build-cv must point at tailor-cv's ats-rules,
+        # not carry its own copy of the ATS ruleset.
+        text = _read(".claude", "skills", "build-cv", "SKILL.md")
+        self.assertIn(
+            "tailor-cv/ats-rules.md", text,
+            "build-cv must reference tailor-cv/ats-rules.md (shared rules), "
+            "not duplicate the ATS ruleset",
+        )
+
+    def test_cv_builder_routes_to_build_cv(self):
+        self.assertIn(
+            "build-cv", _read(".claude", "agents", "cv-builder.md"),
+            "cv-builder.md no longer routes base-CV work to /build-cv",
+        )
+
+    def test_orchestrator_routes_to_build_cv(self):
+        self.assertIn(
+            "build-cv", _read("agent", "orchestrator.md"),
+            "orchestrator.md no longer routes base-CV work to /build-cv",
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
