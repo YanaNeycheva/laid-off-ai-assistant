@@ -56,13 +56,12 @@ You steer it in plain language. A few examples of what to say and what happens:
 |---|---|
 | „Съкратиха ме вчера, откъде да започна?" | Steadies you, then lays out the first days — with your benefit deadlines if the clock is ticking |
 | „Полагат ли ми се пари и до кога да се регистрирам?" | Works out eligibility, your **exact** Бюро/НОИ deadlines and a benefit estimate — verified against official sources |
-| „Помогни ми да стегна CV-то за тази обява" *(paste the job ad)* | Produces a tailored, ATS-clean CV as `.docx` + `.pdf` |
+| „Нямам CV, помогни ми да си направя" / „Оправи ми автобиографията" | Builds your CV from scratch (or cleans up the one you have) into an ATS-friendly `.docx` + `.pdf` — no job ad needed |
+| „Помогни ми да стегна CV-то за тази обява" *(paste the job ad)* | Takes your CV and tailors it to that specific posting, ATS-clean, as `.docx` + `.pdf` |
 | „Имам интервю в петък, дай да порепетираме" | Runs a mock interview with feedback and helps you tell the layoff story |
 | „Не знам как да си търся работа" | Builds a networking-first plan, a tracker, and outreach drafts |
 | „Разкажи ми за тази компания преди интервюто" *(paste the posting)* | Fit read, „защо точно тук" angles, and questions to ask |
 | *(feeling low / overwhelmed)* | The steadying layer is always on — you don't have to ask |
-
-**CV only?** You can invoke the CV engine directly: **`/build-cv`** to create or ATS-clean your base CV (no job posting needed), or **`/tailor-cv`** to tailor a clean base to a specific posting.
 
 ### What you get, and where
 Everything produced **for you** lives in a private, **git-ignored** `Personal/<date>-you/` folder — so nothing about your situation is ever committed to the repo:
@@ -70,6 +69,20 @@ Everything produced **for you** lives in a private, **git-ignored** `Personal/<d
 - your tailored **CV** (`.docx` + `.pdf`)
 - a job-search **tracker**
 - **interview** notes
+
+## CV Only
+
+Maybe you're steady and you just want a solid CV — you don't need the whole assistant for that. There are two things it does, and they build on each other:
+
+**1. Make or fix your CV — no job ad needed.** Tell it *„Нямам CV, помогни ми да си направя"* or *„Оправи ми автобиографията"*. It asks you a few questions — **one at a time**, never a long form — about your experience, education and skills, and turns your answers into a clean, general-purpose CV. It **never invents** anything: if you don't have a number or a detail, it leaves a gap and asks you, rather than making something up. The result is your **base CV** — a strong, honest version you can send anywhere.
+
+**2. Tailor it to a specific job.** Once you have a clean base CV, paste a job ad and say *„Помогни ми да стегна CV-то за тази обява"*. It takes your base CV and reshapes it for that one posting — leading with the experience and keywords that job asks for — without changing any facts.
+
+**Why "ATS-friendly" matters.** Most employers run your CV through software (an *Applicant Tracking System*) before a human ever sees it. If the layout confuses the software — tables, columns, images, logos, unusual headings — your CV can be mis-read or dropped. So everything it produces is deliberately plain and scanner-safe: a single column, standard section headings, clear dates, no graphics. It still reads well for a human — it just won't trip the robots first.
+
+**What you get.** Each CV comes as a **`.docx`** (the version the software reads best) and a **`.pdf`** (for people to read), in **Bulgarian or English** — it follows the language of the job. Every version is kept, so you never lose an earlier one, and it all lives in your private `Personal/` folder — nothing is ever uploaded or committed.
+
+**How to start.** Easiest is to just talk to it. If you're comfortable with commands, in Claude Code or OpenCode you can jump straight in: **`/build-cv`** to make or fix your base CV, **`/tailor-cv`** to tailor it to a posting.
 
 ## How it works
 

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.7.1] - 2026-10-02
+
+### Changed
+- README: added a plain-language **CV Only** section explaining how CV building works (make/fix a base
+  CV with no job ad → tailor it to a posting), why ATS-friendly formatting matters, and what you get
+  (`.docx` + `.pdf`, BG/EN, versioned, private). Added a matching "make/fix my CV" row to the
+  "What you can ask for" table. No behavior change — documentation only.
+
 ## [1.7.0] - 2026-10-02
 
 ### Added
