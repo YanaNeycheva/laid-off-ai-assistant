@@ -70,5 +70,13 @@ The shared case file. The orchestrator and every subagent read and write it. Thi
 - **Оценка на обезщетение:** {estimate — да се потвърди в НОИ}
 - **За потвърждаване:** {}
 
+## Deadlines (machine-read by the comeback mod — orchestrator / bg-navigator fill)
+One entry per deadline. Keys are fixed ASCII; values are free text, except `due` and `start` (ISO `YYYY-MM-DD`) and `fact` (one key from the list below). Only deadlines whose `fact` is `✅ потвърдено` in the `Дневник на проверките` of `knowledge-base/bg-legal.md` show as a countdown; the rest show as `за проверка`. Delete entries that no longer apply.
+- title: {напр. Регистрация в Бюрото по труда}
+  due: {YYYY-MM-DD — крайният срок}
+  start: {YYYY-MM-DD — по желание, откога тече срокът, напр. датата на прекратяване}
+  docs: {нужни документи, разделени със запетая}
+  fact: {bureau-registration | noi-application | health-insurance}
+
 ## Log
 - {дата — какво се случи / кой subagent тичаше}

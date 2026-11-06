@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.8.0] - 2026-11-07
+
+### Added
+- **`mods/comeback` Claude Code plugin** - one plugin for all comeback mods, so the dossier reader is written once. Shared code in `hooks/shared/`: `dossier.ts` (finds the most recently modified `Personal/*/dossier.md`, parses sections and `key: value` entries; read-only), `legal.ts` (reads the `Дневник на проверките` in `bg-legal.md`) and `ui.tsx` (card, pill, meter, pane header, band). `mods/README.md` documents the layout, the shared-code rule and how to add a feature.
+- **Срокове (deadlines) mod** - a band above the prompt with the nearest verified deadline in days (neutral, amber at 7 days or fewer, red at 2 or fewer) and a side pane listing every deadline with due date, documents and a time-left meter. A deadline whose fact is not `✅ потвърдено` in the verification log is shown as `за проверка` with the official link, never as a countdown.
+- `agent/dossier-template.md`: new machine-read **Deadlines** section (ISO dates, a `fact` key); `agent/orchestrator.md`: one line telling the orchestrator to keep it filled.
+- `tests/test_mods.py` (plugin matches `VERSION`, the template and the verification log; stays read-only; no motion-preference branching) and plugin tests in `mods/comeback/test/` (run with `claude plugin test mods/comeback`).
+
 ## [1.7.1] - 2026-10-02
 
 ### Changed
