@@ -11,7 +11,7 @@ User-facing text is Bulgarian; code, comments and docs are English (see the root
 | 1 | Срокове (deadlines): band + pane | `hooks/features/deadlines.tsx` | `Deadlines` | shipped |
 | 2 | Етап (journey) | `hooks/features/journey.tsx` | `Journey` | shipped |
 | 3 | Кандидатури (pipeline) | `hooks/features/pipeline.tsx` | — (чете tracker.md) | shipped |
-| 4 | Документи (documents) | `hooks/features/documents.tsx` | - | planned |
+| 4 | Документи (documents) | `hooks/features/documents.tsx` | - (scans `Personal/`; reads `CV`, `Interviews`, `Company intel`; no new section, so recipe step 1 is skipped) | shipped |
 | 5 | Финансов хоризонт (runway) | `hooks/features/runway.tsx` | - | planned |
 
 ## Layout
@@ -23,6 +23,7 @@ mods/comeback/
   hooks/register.tsx             one registerX(on) call per feature
   hooks/features/<feature>.tsx   one file per feature: its logic, its hooks, its drawing
   hooks/shared/dossier.ts        THE shared dossier reader (below)
+  hooks/shared/documents.ts      read-only discovery of CV files (base, tailored) and prep notes in the dossier
   hooks/shared/legal.ts          reader for the Дневник на проверките in bg-legal.md
   hooks/shared/ui.tsx            shared drawing pieces: card, pill, meter, paneHeader, band
   test/                          *.test.ts(x) for `claude plugin test`, fictional fixtures in test/fixtures/

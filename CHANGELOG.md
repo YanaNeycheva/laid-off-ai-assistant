@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.11.0] - 2026-11-07
+
+### Added
+- **Документи (documents) mod** - a side pane "Документи" with three groups: Базово CV (versions newest first, the newest marked "текущо", older ones dim), Пригодени (one row per `YYYY-MM-DD_Company_Position` folder, "Company · Position") and Подготовка (a "Пробно интервю — обратна връзка" row when the dossier `## Interviews` section is filled, and "<company> — въпроси за задаване" for each filled `### ...` block under `## Company intel`). Each row has a `DD.MM` date; file rows show their path. Status-line segment `6 документа`. `/documents` reopens the pane. Read-only; needs no new dossier section.
+- `mods/comeback/hooks/shared/documents.ts`: shared, read-only artifact discovery (workspace from the dossier `Workspace път`, base-CV and position-folder scan, prep detection from dossier sections).
+- `mods/comeback/hooks/shared/ui.tsx`: `groupLabel` and `iconRow` helpers.
+
 ## [1.10.0] - 2026-11-07
 
 ### Added

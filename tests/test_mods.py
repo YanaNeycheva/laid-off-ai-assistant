@@ -39,6 +39,8 @@ class TestPluginLayout(unittest.TestCase):
             "hooks/hooks.json",
             "hooks/register.tsx",
             "hooks/features/deadlines.tsx",
+            "hooks/features/documents.tsx",
+            "hooks/shared/documents.ts",
             "hooks/shared/dossier.ts",
             "hooks/shared/ui.tsx",
         ):
@@ -69,6 +71,21 @@ class TestPluginContract(unittest.TestCase):
     def test_no_reduced_motion_branching(self):
         for rel, src in _plugin_sources().items():
             self.assertNotRegex(src.lower(), r"reduced[-_ ]?motion", f"{rel}: no reduced-motion branching (project rule)")
+
+
+class TestDocumentsWiring(unittest.TestCase):
+    def test_registered_once(self):
+        reg = _read("mods", "comeback", "hooks", "register.tsx")
+        self.assertEqual(reg.count("registerDocuments(on)"), 1)
+
+    def test_feature_keeps_discovery_in_shared_module(self):
+        feature = _read("mods", "comeback", "hooks", "features", "documents.tsx")
+        self.assertIn("../shared/documents", feature)
+        self.assertNotIn("fs.list", feature)
+        self.assertNotIn("on('prompt.submit'", feature)
+
+    def test_status_key_reserved(self):
+        self.assertIn("'documents'", _read("mods", "comeback", "hooks", "shared", "status.ts"))
 
 
 class TestDeadlinesWiring(unittest.TestCase):

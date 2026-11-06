@@ -1,6 +1,7 @@
 import type { Register } from 'claude-code'
 
 import { registerDeadlines } from './features/deadlines'
+import { registerDocuments } from './features/documents'
 import { registerJourney } from './features/journey'
 import { registerPipeline } from './features/pipeline'
 
@@ -25,4 +26,5 @@ export const register: Register = on => {
   registerDeadlines(on)
   registerJourney(on)
   registerPipeline(on)
+  registerDocuments(on)
 }

@@ -239,3 +239,107 @@ export const TRACKER_OFFER = trackerMd({
     '| Капа Груп | Ops Lead | не след интервю | стегни разказа |',
   ],
 })
+
+// ---------------------------------------------------------------- documents
+
+/** `## Interviews` and `## Company intel` as the subagents write them, filled. */
+export const FILLED_PREP = `## CV (cv-builder writes here)
+- **Workspace път:** {}
+- **Базова версия:** v2.0
+
+## Company intel (company-intel writes here)
+### Chaos / Program Manager — https://example.test/chaos
+- **Fit read:** Силно съвпадение по delivery.
+- **Въпроси за задаване:** Как изглежда първият квартал?
+
+### {компания / длъжност — обява URL}
+- **Fit read:** {къде опитът пасва}
+
+## Interviews (interview-coach writes here)
+- **Разказ за напускането (текуща форма):** Съкратиха позицията ми, не мен.
+- **Топ 2–3 неща за подобрение:** {}
+`
+
+/** The same sections left as the template has them. */
+export const PLACEHOLDER_PREP = `## CV (cv-builder writes here)
+- **Workspace път:** {}
+
+## Company intel (company-intel writes here)
+### {компания / длъжност — обява URL}
+- **Fit read:** {къде опитът пасва}
+- **Въпроси за задаване:** {остри въпроси}
+
+## Interviews (interview-coach writes here)
+- **Разказ за напускането (текуща форма):** {}
+- **Практикувани въпроси + бележки:** {}
+`
+
+export function personDossier(sections: string) {
+  return `# Dossier — Мила Примерна
+
+## Profile
+- **Име:** Мила Примерна
+
+${sections}`
+}
+
+/** mtimes in the documents fixtures: noon UTC on the given 2026 date. */
+export const at = (month: number, day: number) => Date.UTC(2026, month - 1, day, 12, 0, 0)
+
+/** The people tree: dossier, 2 base CV versions (+ pdf, + _latest copy), 2 tailored folders. */
+export const WORKSPACE: Record<string, { text: string; mtimeMs: number }> = {
+  'Personal/2026-10-mila/dossier.md': { text: personDossier(FILLED_PREP), mtimeMs: at(11, 6) },
+  'Personal/2026-10-mila/Мила Примерна CV_v1.0.docx': { text: 'x', mtimeMs: at(10, 20) },
+  'Personal/2026-10-mila/Мила Примерна CV_v2.0.docx': { text: 'x', mtimeMs: at(11, 2) },
+  'Personal/2026-10-mila/Мила Примерна CV_v2.0.pdf': { text: 'x', mtimeMs: at(11, 2) },
+  'Personal/2026-10-mila/Мила Примерна CV_latest.docx': { text: 'x', mtimeMs: at(11, 2) },
+  'Personal/2026-10-mila/CHANGELOG.md': { text: 'x', mtimeMs: at(11, 2) },
+  'Personal/2026-10-mila/2026-11-03_Chaos_Program-Manager/Мила Примерна CV - Chaos - Program Manager.docx': { text: 'x', mtimeMs: at(11, 3) },
+  'Personal/2026-10-mila/2026-11-03_Chaos_Program-Manager/Мила Примерна CV - Chaos - Program Manager.pdf': { text: 'x', mtimeMs: at(11, 3) },
+  'Personal/2026-10-mila/2026-11-05_Alfa_Delivery-Lead/Мила Примерна CV - Alfa - Delivery Lead.docx': { text: 'x', mtimeMs: at(11, 5) },
+}
+
+/**
+ * Like `fakeFs`, but entries have a real kind: a path with something below it is
+ * a `dir`, a stored path is a `file`. A directory's mtime is its newest descendant.
+ */
+export function treeFs(files: Record<string, { text: string; mtimeMs: number }>) {
+  return {
+    async list(path?: string) {
+      const prefix = `${path ?? ''}/`
+      const seen = new Map<string, string>()
+      for (const key of Object.keys(files)) {
+        if (key.startsWith(prefix)) {
+          const rest = key.slice(prefix.length)
+          const name = rest.split('/')[0] ?? ''
+          seen.set(name, rest.includes('/') ? 'dir' : 'file')
+        }
+      }
+      if (seen.size === 0) {
+        throw new Error('ENOENT')
+      }
+
+      return [...seen].map(([name, kind]) => ({ name, kind }))
+    },
+    async stat(path: string) {
+      const file = files[path]
+      if (file) {
+        return { mtimeMs: file.mtimeMs }
+      }
+      const below = Object.entries(files).filter(([k]) => k.startsWith(`${path}/`))
+      if (below.length === 0) {
+        throw new Error('ENOENT')
+      }
+
+      return { mtimeMs: Math.max(...below.map(([, f]) => f.mtimeMs)) }
+    },
+    async read(path: string) {
+      const file = files[path]
+      if (!file) {
+        throw new Error('ENOENT')
+      }
+
+      return file.text
+    },
+  }
+}

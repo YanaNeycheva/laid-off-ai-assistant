@@ -86,6 +86,42 @@ export function pill(t: UiTable, text: string, tone: Tone) {
   )
 }
 
+/** A dim group label above a list (`Базово CV`). */
+export function groupLabel(t: UiTable, text: string) {
+  const { Text } = t
+
+  return (
+    <Text dimColor weight="semibold">
+      {text}
+    </Text>
+  )
+}
+
+/**
+ * A list row: icon, name, optional pill, and a right-aligned dim note (a date).
+ * `dim` greys the name; `hint` is a dim second line (a path).
+ */
+export function iconRow(
+  t: UiTable,
+  opts: { icon: string; name: string; pill?: { text: string; tone: Tone }; note?: string; dim?: boolean; hint?: string },
+) {
+  const { Box, Text } = t
+
+  return (
+    <Box flexDirection="column">
+      <Box justifyContent="space-between" gap={1}>
+        <Box gap={1}>
+          <Text>{opts.icon}</Text>
+          <Text dimColor={opts.dim === true}>{opts.name}</Text>
+          {opts.pill === undefined ? null : pill(t, opts.pill.text, opts.pill.tone)}
+        </Box>
+        {opts.note === undefined ? null : <Text dimColor>{opts.note}</Text>}
+      </Box>
+      {opts.hint === undefined ? null : <Text dimColor>{opts.hint}</Text>}
+    </Box>
+  )
+}
+
 /** SMIL opacity pulse shared by every pulsing SVG (meter at `bad`, current journey stage). */
 export const PULSE_SMIL =
   '<animate attributeName="opacity" values="1;0.45;1" dur="1.6s" repeatCount="indefinite"/>'
