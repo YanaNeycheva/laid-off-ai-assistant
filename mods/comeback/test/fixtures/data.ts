@@ -162,3 +162,80 @@ ${section}## CV (cv-builder writes here)
 
 /** Stage 3 of 4: search. */
 export const JOURNEY_SEARCH = journeyDossier('search', 'Изпрати три съобщения до познати в целевите компании.')
+
+/** A minimal dossier so the finder has a person; the tracker sits beside it. */
+export const BARE_DOSSIER = `# Dossier — Мила Примерна
+
+## Profile
+- **Име:** Мила Примерна
+`
+
+type Rows = { talking?: string[]; applied?: string[]; targets?: string[]; closed?: string[] }
+
+/** A fictional `tracker.md` in the shape of agent/templates/tracker.md. */
+export function trackerMd(rows: Rows = {}) {
+  const lines = (r: string[] | undefined) => (r ?? []).join('\n')
+
+  return `# Търсене на работа — Мила Примерна
+
+## 📊 Инерция — седмица 03.11
+
+- **Смислени контакти:** 3 / цел 4
+
+## 🟢 В движение — активни разговори
+
+| Компания | Роля | Статус | Следваща стъпка (дата) | Връзки | Контакт |
+|---|---|---|---|---|---|
+| {Acme} | {PM} | Разговор насрочен | {подготовка за интервю — 26.08} | {CV} | {Иван} |
+${lines(rows.talking)}
+
+## 🟡 Изпратено, чака — за follow-up
+
+| Компания | Роля | Изпратено | Follow-up на | Връзки | Контакт |
+|---|---|---|---|---|---|
+| {Beta} | {Senior PM} | {18.08} | {25.08} | {CV} | {—} |
+${lines(rows.applied)}
+
+## ⚪ Цели — още недокоснати
+
+| Компания | Роля | Защо тя | Как да вляза | Приоритет |
+|---|---|---|---|---|
+| {Gamma} | {PM} | {близо} | {студен outreach} | {висок} |
+${lines(rows.targets)}
+
+## 📁 Затворени — и какво научихме
+
+| Компания | Роля | Изход | Какво научихме |
+|---|---|---|---|
+| {Delta} | {PM} | тишина след CV | {проверка на ATS} |
+${lines(rows.closed)}
+
+## Легенда
+
+- Статус конвейер.
+`
+}
+
+/** 4 applied (two need a follow-up), 2 talking (one dated), 0 offers, 1 rejected: `7 кандидатури · 2 разговора`. */
+export const TRACKER_BOARD = trackerMd({
+  talking: [
+    '| Епсилон | HR скрийнинг | Разговор насрочен | интервю — 14.11 | CV: `x` | Иван |',
+    '| Зета Груп | Hiring manager | В процес | чакаме отговор | CV: `y` | — |',
+  ],
+  applied: [
+    '| Алфа Софт | Project Manager | 04.11 | 11.11 | CV | — |',
+    '| Бета Системи | Ops Lead | 01.11 | — | CV | — |',
+    '| Гама Лабс | Delivery Lead | 26.10 | — | CV | — |',
+    '| Делта Тех | Program Manager | 06.11 | 05.11 | CV | — |',
+  ],
+  targets: ['| Йота | PM | близо | outreach | висок |'],
+  closed: ['| Ета Дигитал | Delivery Lead | тишина след CV | ATS |'],
+})
+
+/** One offer ("да") and one "не след интервю". */
+export const TRACKER_OFFER = trackerMd({
+  closed: [
+    '| Тета Мед | Project Manager | да | Оферта |',
+    '| Капа Груп | Ops Lead | не след интервю | стегни разказа |',
+  ],
+})

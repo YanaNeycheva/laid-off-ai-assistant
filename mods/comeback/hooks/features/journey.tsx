@@ -8,6 +8,7 @@
 import type { On } from 'claude-code'
 
 import { dossierFs, loadDossierSection, type Entry } from '../shared/dossier'
+import { setStatusSegment } from '../shared/status'
 import { COLORS, PULSE_SMIL, paneHeader, toneColor, type Tone, type UiTable } from '../shared/ui'
 
 const PANE = 'comeback-journey'
@@ -146,7 +147,7 @@ async function refreshStatus($: Parameters<typeof dossierFs>[0] & {
   ui: { status: (text: string | undefined) => void }
 }) {
   const view = await load($)
-  $.ui.status(view === null ? undefined : view.statusText)
+  setStatusSegment($, 'journey', view === null ? undefined : view.statusText)
 }
 
 export function registerJourney(on: On) {
@@ -168,13 +169,13 @@ export function registerJourney(on: On) {
   })
 
   // No prompt.submit / turn.complete hooks here: the engine allows one unmatched
-  // hook per event per plugin, and deadlines.tsx already invalidates `ui.render`
+  // hook per event per plugin, and register.tsx already invalidates `ui.render`
   // around each turn. That redraw re-runs the pane hook below, which also
   // refreshes the status line.
 
   on('ui.render', { component: 'Pane', requestId: PANE }, async ($, e) => {
     const view = await load($)
-    $.ui.status(view === null ? undefined : view.statusText)
+    setStatusSegment($, 'journey', view === null ? undefined : view.statusText)
     const t = $.ui.resolve(e)
     const { Box, Text } = t
 

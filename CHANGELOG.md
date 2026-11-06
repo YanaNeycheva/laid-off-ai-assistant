@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.10.0] - 2026-11-07
+
+### Added
+- **Кандидатури (pipeline) mod** - a side pane "Кандидатури" showing the applications as four columns (Кандидатствах, Разговор, Оферта, Отказ) with counts. An `applied` card whose "Follow-up на" date has passed (or, without one, that was sent 10 or more days ago) gets an amber border and "време за follow-up"; a `talking` card shows the next meeting (`роля · интервю 14.11`); an empty Оферта column shows a steadying line. Status-line segment `7 кандидатури · 2 разговора`. `/pipeline` reopens the pane.
+- `mods/comeback/hooks/shared/status.ts`: a status-line coordinator. `$.ui.status` is one slot per plugin, so each feature now sets its own segment and the segments are composed in a fixed order.
+- `mods/comeback/hooks/shared/tracker.ts`: tolerant, read-only parser for the person's own `tracker.md` (zones by heading, `DD.MM` dates resolved to the year nearest today). The mod reads the tracker directly; there is no second copy in the dossier.
+
+### Changed
+- The journey mod writes its status through the shared coordinator (no visible change).
+- The per-turn pane redraw (prompt.submit / turn.complete → ui.invalidate) is now registered once in register.tsx instead of inside the deadlines mod; no behaviour change.
+
 ## [1.9.0] - 2026-11-07
 
 ### Added

@@ -190,18 +190,6 @@ export function registerDeadlines(on: On) {
     return { text: 'Панелът Срокове е отворен.' }
   })
 
-  // The dossier changes while the assistant works: redraw around each turn.
-  on('prompt.submit', ($, e, next) => {
-    $.ui.invalidate('ui.render')
-
-    return next(e)
-  })
-  on('turn.complete', ($, e, next) => {
-    $.ui.invalidate('ui.render')
-
-    return next(e)
-  })
-
   on('ui.render', { component: 'AbovePrompt' }, async ($, e, next) => {
     const { views } = await load($)
     const nearest = nearestVerified(views)
