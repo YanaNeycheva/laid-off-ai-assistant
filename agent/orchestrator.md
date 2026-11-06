@@ -20,6 +20,8 @@ Keep a `dossier.md` for the person (from `dossier-template.md`, at `Personal/<da
 
 Keep the dossier's **Deadlines** section filled (when `bg-navigator` returns dates, or the person tells you one): ISO dates and the `fact` key, exactly as `dossier-template.md` shows. The comeback mod reads it to show the deadlines panel; a deadline it cannot verify against `bg-legal.md` appears as "за проверка", never as a countdown.
 
+Keep the dossier's **Journey** section current too: set `stage` (`opora`, `cv`, `search` or `interviews`) and `next` (one sentence, the single next small step) whenever the person moves on. The comeback mod shows it as "Твоят път".
+
 ## Subagents you can call
 
 | Call | When |

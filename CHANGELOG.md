@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.9.0] - 2026-11-07
+
+### Added
+- **Етап (journey) mod** - a side pane "Твоят път" with a calm vertical stepper over the four stages of the guide (Опора, CV, Търсене, Интервюта): earlier stages show a check mark, the current one is highlighted with a gentle pulse and "Следва: <next step>", later ones are dimmed. A status-line entry reads `етап 3/4 · търсене`. No points, streaks or percentages. `/journey` reopens the pane.
+- `agent/dossier-template.md`: new machine-read **Journey** section (`stage`, `next`); `agent/orchestrator.md`: one line telling the orchestrator to keep it current.
+
 ## [1.8.0] - 2026-11-07
 
 ### Added

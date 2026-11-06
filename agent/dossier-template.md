@@ -28,6 +28,11 @@ The shared case file. The orchestrator and every subagent read and write it. Thi
 - **Целеви роли:** {}
 - **Целеви компании / тип:** {}
 
+## Journey (machine-read by the comeback mod — orchestrator fills)
+Where the person is in the four stages of the guide. One entry. `stage` is one fixed ASCII key: `opora` (опора/първите дни), `cv`, `search` (търсене), `interviews` (интервюта) — in that order. `next` is the single concrete next step, one Bulgarian sentence. Stages before the current one are shown as done; the current one is highlighted with "Следва: <next>".
+- stage: {opora | cv | search | interviews}
+  next: {едно изречение — следващата малка стъпка}
+
 ## CV (cv-builder writes here; orchestrator front-loads the brief)
 - **Workspace път:** {}
 - **Базова версия:** {напр. v1.2}

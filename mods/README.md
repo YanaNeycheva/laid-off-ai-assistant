@@ -9,7 +9,7 @@ User-facing text is Bulgarian; code, comments and docs are English (see the root
 | # | Feature | File | Dossier section | Status |
 |---|---|---|---|---|
 | 1 | Срокове (deadlines): band + pane | `hooks/features/deadlines.tsx` | `Deadlines` | shipped |
-| 2 | Етап (journey) | `hooks/features/journey.tsx` | - | planned |
+| 2 | Етап (journey) | `hooks/features/journey.tsx` | `Journey` | shipped |
 | 3 | Кандидатури (pipeline) | `hooks/features/pipeline.tsx` | - | planned |
 | 4 | Документи (documents) | `hooks/features/documents.tsx` | - | planned |
 | 5 | Финансов хоризонт (runway) | `hooks/features/runway.tsx` | - | planned |

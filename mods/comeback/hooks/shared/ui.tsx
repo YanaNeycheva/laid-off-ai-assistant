@@ -86,6 +86,10 @@ export function pill(t: UiTable, text: string, tone: Tone) {
   )
 }
 
+/** SMIL opacity pulse shared by every pulsing SVG (meter at `bad`, current journey stage). */
+export const PULSE_SMIL =
+  '<animate attributeName="opacity" values="1;0.45;1" dur="1.6s" repeatCount="indefinite"/>'
+
 /**
  * A horizontal meter filled to `fraction` (0..1). On the graphical surfaces it
  * grows in and, at `bad`, pulses (SMIL, like the mockup's grow-in / pulse). The
@@ -102,10 +106,7 @@ export function meter(
   if ('Svg' in t) {
     const { Svg } = t
     const fill = Math.round(fraction * 100)
-    const pulse =
-      opts.tone === 'bad'
-        ? '<animate attributeName="opacity" values="1;0.45;1" dur="1.6s" repeatCount="indefinite"/>'
-        : ''
+    const pulse = opts.tone === 'bad' ? PULSE_SMIL : ''
     const source =
       `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 8" preserveAspectRatio="none">` +
       `<rect width="100" height="8" rx="4" fill="${COLORS.track}"/>` +

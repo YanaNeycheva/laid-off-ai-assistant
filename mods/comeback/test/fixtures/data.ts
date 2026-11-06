@@ -132,3 +132,33 @@ export function fakeFs(files: Record<string, { text: string; mtimeMs: number }>)
     },
   }
 }
+
+/** A dossier with a `Journey` section (fictional persona). Pass no stage to omit the section. */
+export function journeyDossier(stage?: string, next?: string) {
+  const section =
+    stage === undefined
+      ? ''
+      : `## Journey (machine-read by the comeback mod — orchestrator fills)
+Къде си в четирите етапа.
+- stage: ${stage}
+${next ? `  next: ${next}\n` : ''}
+`
+
+  return `# Dossier — Мила Примерна
+
+## Profile
+- **Име:** Мила Примерна
+
+## Target
+- **Целеви роли:** {}
+
+${section}## CV (cv-builder writes here)
+- **Базова версия:** v1.0
+
+## Log
+- нищо
+`
+}
+
+/** Stage 3 of 4: search. */
+export const JOURNEY_SEARCH = journeyDossier('search', 'Изпрати три съобщения до познати в целевите компании.')
