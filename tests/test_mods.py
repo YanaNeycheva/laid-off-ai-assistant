@@ -1,6 +1,6 @@
-"""Static invariants for the comeback Claude Code plugin in mods/comeback.
+"""Static invariants for the comeback Claude Code plugin in .claude/skills/comeback-mods.
 
-The plugin's behaviour is tested by `claude plugin test mods/comeback`; this
+The plugin's behaviour is tested by `claude plugin test .claude/skills/comeback-mods`; this
 file guards what that runner cannot see: the plugin matches the repo (version,
 dossier template, bg-legal verification log) and keeps its read-only,
 no-reduced-motion contract. Stdlib `unittest` only.
@@ -12,7 +12,7 @@ import re
 import unittest
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PLUGIN = os.path.join(REPO_ROOT, "mods", "comeback")
+PLUGIN = os.path.join(REPO_ROOT, ".claude", "skills", "comeback-mods")
 
 
 def _read(*parts):
@@ -44,20 +44,20 @@ class TestPluginLayout(unittest.TestCase):
             "hooks/shared/dossier.ts",
             "hooks/shared/ui.tsx",
         ):
-            self.assertTrue(os.path.isfile(os.path.join(PLUGIN, rel)), f"missing mods/comeback/{rel}")
-        self.assertTrue(os.path.isfile(os.path.join(REPO_ROOT, "mods", "README.md")))
+            self.assertTrue(os.path.isfile(os.path.join(PLUGIN, rel)), f"missing .claude/skills/comeback-mods/{rel}")
+        self.assertTrue(os.path.isfile(os.path.join(PLUGIN, "README.md")))
 
     def test_hooks_json_names_register(self):
-        data = json.loads(_read("mods", "comeback", "hooks", "hooks.json"))
+        data = json.loads(_read(".claude", "skills", "comeback-mods", "hooks", "hooks.json"))
         self.assertEqual(data, {"modules": ["./register.tsx"]})
 
     def test_plugin_version_matches_VERSION(self):
-        manifest = json.loads(_read("mods", "comeback", ".claude-plugin", "plugin.json"))
+        manifest = json.loads(_read(".claude", "skills", "comeback-mods", ".claude-plugin", "plugin.json"))
         self.assertEqual(manifest["name"], "comeback")
         self.assertEqual(
             manifest["version"],
             _read("VERSION").strip(),
-            "mods/comeback plugin.json version must equal VERSION",
+            ".claude/skills/comeback-mods plugin.json version must equal VERSION",
         )
 
 
@@ -75,39 +75,39 @@ class TestPluginContract(unittest.TestCase):
 
 class TestDocumentsWiring(unittest.TestCase):
     def test_registered_once(self):
-        reg = _read("mods", "comeback", "hooks", "register.tsx")
+        reg = _read(".claude", "skills", "comeback-mods", "hooks", "register.tsx")
         self.assertEqual(reg.count("registerDocuments(on)"), 1)
 
     def test_feature_keeps_discovery_in_shared_module(self):
-        feature = _read("mods", "comeback", "hooks", "features", "documents.tsx")
+        feature = _read(".claude", "skills", "comeback-mods", "hooks", "features", "documents.tsx")
         self.assertIn("../shared/documents", feature)
         self.assertNotIn("fs.list", feature)
         self.assertNotIn("on('prompt.submit'", feature)
 
     def test_status_key_reserved(self):
-        self.assertIn("'documents'", _read("mods", "comeback", "hooks", "shared", "status.ts"))
+        self.assertIn("'documents'", _read(".claude", "skills", "comeback-mods", "hooks", "shared", "status.ts"))
 
 
 class TestRunwayWiring(unittest.TestCase):
     def test_registered_once(self):
-        reg = _read("mods", "comeback", "hooks", "register.tsx")
+        reg = _read(".claude", "skills", "comeback-mods", "hooks", "register.tsx")
         self.assertEqual(reg.count("registerRunway(on)"), 1)
 
     def test_feature_uses_shared_dossier_reader(self):
-        feature = _read("mods", "comeback", "hooks", "features", "runway.tsx")
+        feature = _read(".claude", "skills", "comeback-mods", "hooks", "features", "runway.tsx")
         self.assertIn("../shared/dossier", feature)
         self.assertNotIn("fs.list", feature)
         self.assertNotIn("on('prompt.submit'", feature)
 
     def test_status_key_reserved(self):
-        self.assertIn("'runway'", _read("mods", "comeback", "hooks", "shared", "status.ts"))
+        self.assertIn("'runway'", _read(".claude", "skills", "comeback-mods", "hooks", "shared", "status.ts"))
 
 
 class TestDeadlinesWiring(unittest.TestCase):
     """The deadlines feature, the dossier template and bg-legal.md agree."""
 
     def setUp(self):
-        self.src = _read("mods", "comeback", "hooks", "features", "deadlines.tsx")
+        self.src = _read(".claude", "skills", "comeback-mods", "hooks", "features", "deadlines.tsx")
         self.facts = dict(
             re.findall(r"'([a-z-]+)':\s*\{\s*label:\s*'([^']+)'", self.src)
         )

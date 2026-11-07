@@ -27,3 +27,6 @@ __pycache__/
 
 # Porting/planning docs — working artifacts, never committed (kept on disk only)
 /PORTING-PLAN*.md
+
+# Claude Code plugin types, written by the engine when it loads the mod
+/.claude/skills/comeback-mods/.claude-plugin/types/

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.13.0] - 2026-11-07
+
+### Changed
+- **Mods load automatically.** Moved the mods plugin from `mods/comeback/` to
+  `.claude/skills/comeback-mods/` (its README moved with it). Claude Code auto-loads a plugin
+  found in the project's `.claude/skills/<name>/` folder, so anyone who opens the repo in
+  Claude Code (terminal or desktop app) gets the five side panes with no `--plugin-dir` flag,
+  no install and no copying. Updated `README.md`, the plugin README and `tests/test_mods.py`
+  to the new path, and git-ignored the engine-written `.claude-plugin/types/` folder.
+
 ## [1.12.3] - 2026-11-07
 
 ### Fixed

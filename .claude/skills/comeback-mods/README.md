@@ -1,6 +1,8 @@
 # comeback mods
 
-Claude Code **mods** for people using `/comeback`: panes and bands that sit beside the chat and show the person's own situation, read from their local dossier. All features live in **one plugin**, `mods/comeback`, so the code that finds and parses the dossier is written once.
+Claude Code **mods** for people using `/comeback`: panes and bands that sit beside the chat and show the person's own situation, read from their local dossier. All features live in **one plugin**, `.claude/skills/comeback-mods/`, so the code that finds and parses the dossier is written once.
+
+The plugin sits in the project's skills folder on purpose: Claude Code auto-loads a plugin found in `.claude/skills/<name>/`, so anyone who opens this repo in Claude Code (terminal or desktop app) gets the mods with no flag, no install and no copying.
 
 User-facing text is Bulgarian; code, comments and docs are English (see the root `CLAUDE.md`).
 
@@ -17,7 +19,7 @@ User-facing text is Bulgarian; code, comments and docs are English (see the root
 ## Layout
 
 ```
-mods/comeback/
+.claude/skills/comeback-mods/
   .claude-plugin/plugin.json     name "comeback"; version equals the repo VERSION (a test enforces it)
   hooks/hooks.json               { "modules": ["./register.tsx"] }
   hooks/register.tsx             one registerX(on) call per feature
@@ -58,20 +60,14 @@ Anything two features need is built **once** in `hooks/shared/` and imported. Do
 
 ## Develop and check
 
-Run a session with the plugin loaded from disk (needs Claude Code with function-hook plugins, 2.1.317 or newer), from the repo root so `Personal/` and `knowledge-base/` resolve:
+Open a Claude Code session in the repo root (needs Claude Code with function-hook plugins, 2.1.317 or newer) so `Personal/` and `knowledge-base/` resolve. The plugin loads by itself from the skills folder and reloads when a file in it is saved. The side pane opens on session start; `/deadlines` reopens it.
 
 ```
-claude --plugin-dir mods/comeback
+claude plugin validate .claude/skills/comeback-mods
+claude plugin test .claude/skills/comeback-mods
 ```
 
-The side pane opens on session start; `/deadlines` reopens it.
-
-```
-claude plugin validate mods/comeback
-claude plugin test mods/comeback
-```
-
-Type-check with the `tsconfig.json` from the header of the engine's `claude-code.d.ts` (the engine also lays it into `mods/comeback/.claude-plugin/types/` the first time it loads the plugin). Repo-level checks for the plugin are in `tests/test_mods.py` and run with the rest of `python -m unittest discover -s tests`.
+Type-check with the `tsconfig.json` from the header of the engine's `claude-code.d.ts` (the engine also lays it into `.claude/skills/comeback-mods/.claude-plugin/types/` the first time it loads the plugin). Repo-level checks for the plugin are in `tests/test_mods.py` and run with the rest of `python -m unittest discover -s tests`.
 
 ## Deadlines feature: how the verification gate works
 
