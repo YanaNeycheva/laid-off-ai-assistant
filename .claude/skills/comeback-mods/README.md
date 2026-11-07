@@ -77,6 +77,8 @@ Type-check with the `tsconfig.json` from the header of the engine's `claude-code
 |---|---|
 | `bureau-registration` | Срок регистрация в Бюро по труда |
 | `noi-application` | Срок молба-декларация НОИ |
-| `health-insurance` | no row yet, so always `за проверка` (official link and how-to: НАП обр. 7 page on nra.bg) |
+| `health-insurance` | **Здраве —** декларация обр. 7 и срок за плащане |
+
+Each card can also carry official how-to links (`guides` in `FACTS`), shown whether or not the deadline is verified. `health-insurance` links to НАП's page for the unemployed and to the обр. 7 service page. An entry's optional `note:` (amounts, payment rule, written by bg-navigator from `bg-legal.md`) is shown on the card as is; the mod never derives it.
 
 A deadline counts down only if its row exists and is `✅ потвърдено`. Otherwise (row `⚠️ непроверено`, no row, or an unknown key) the pane shows a `за проверка` pill and the official link, and never a number of days. The band shows the nearest verified deadline: neutral beyond 7 days, amber at 7 or fewer, red at 2 or fewer; it is hidden when no verified deadline exists. To make a new fact count down, have `freshness-checker` add and confirm its row, then add the key to `FACTS`.

@@ -32,12 +32,12 @@ export type Guide = { label: string; url: string }
 
 /**
  * `fact` keys an entry may use, mapped to the Дневник на проверките row.
- * `guide` is an optional official page that explains what to do; the card
- * shows it whether or not the deadline is verified.
+ * `guides` are official pages that explain what to do; the card shows them
+ * whether or not the deadline is verified.
  */
 export const FACTS: Record<
   string,
-  { label: string; fallbackSource: string; guide?: Guide }
+  { label: string; fallbackSource: string; guides?: Guide[] }
 > = {
   'bureau-registration': {
     label: 'Срок регистрация в Бюро по труда',
@@ -47,16 +47,22 @@ export const FACTS: Record<
     label: 'Срок молба-декларация НОИ',
     fallbackSource: 'https://www.nssi.bg',
   },
-  // No row in the log yet: always `за проверка` until freshness-checker adds one.
   'health-insurance': {
-    label: 'Срок здравно осигуряване',
-    fallbackSource: 'https://nra.bg/wps/wcm/connect/agency/site/uslugi/deklarirane-na-zravno-osigurqvane-za-sobstvena-smetka-obrazec-7',
-    // НАП service page: who files обр. 7, the deadline, and how to file
-    // (online with ПИК/КЕП, by post, at an office). Checked 2026-11-07.
-    guide: {
-      label: 'Как се подава декларация обр. 7 (НАП)',
-      url: 'https://nra.bg/wps/wcm/connect/agency/site/uslugi/deklarirane-na-zravno-osigurqvane-za-sobstvena-smetka-obrazec-7',
-    },
+    label: '**Здраве —** декларация обр. 7 и срок за плащане',
+    fallbackSource: 'https://nra.bg/wps/portal/nra/osiguryavane/zdravno-osiguryavane/bezrabotni',
+    // Checked 2026-11-07. First: НАП's page for the unemployed (who pays,
+    // minimum amount, deadlines). Second: the обр. 7 service page (how to
+    // file: online with ПИК/КЕП, by post, at an office).
+    guides: [
+      {
+        label: 'Здравно осигуряване за безработни (НАП)',
+        url: 'https://nra.bg/wps/portal/nra/osiguryavane/zdravno-osiguryavane/bezrabotni',
+      },
+      {
+        label: 'Как се подава декларация обр. 7 (НАП)',
+        url: 'https://nra.bg/wps/wcm/connect/agency/site/uslugi/deklarirane-na-zravno-osigurqvane-za-sobstvena-smetka-obrazec-7',
+      },
+    ],
   },
 }
 
@@ -75,8 +81,13 @@ export type DeadlineView = {
   checked: string
   /** Unverified: the official source to look at. */
   source: string
-  /** Official how-to page for this deadline, if there is one. */
-  guide: Guide | null
+  /** Official how-to pages for this deadline; may be empty. */
+  guides: Guide[]
+  /**
+   * Free text from the dossier's `note` key (amounts, payment rule), written
+   * by bg-navigator from bg-legal.md. Shown as is; the mod derives nothing.
+   */
+  note: string
 }
 
 export function toneFor(daysLeft: number): Tone {
@@ -131,7 +142,8 @@ export function buildDeadlines(
         isVerified && daysLeft !== null && window > 0 ? daysLeft / window : 0,
       checked: row?.checked ?? '',
       source: row?.source || fact?.fallbackSource || 'knowledge-base/bg-legal.md',
-      guide: fact?.guide ?? null,
+      guides: fact?.guides ?? [],
+      note: entry.note ?? '',
     })
   }
 
@@ -259,7 +271,7 @@ export function registerDeadlines(on: On) {
                   до {formatBgDate(view.due)}
                   {view.docs !== '' ? ` · ${view.docs}` : ''}
                 </Text>
-              ) : view.guide !== null && view.guide.url === view.source ? (
+              ) : view.guides.some(g => g.url === view.source) ? (
                 <Text dimColor>не е потвърдено · провери на официалната страница</Text>
               ) : (
                 <Box gap={1}>
@@ -271,12 +283,13 @@ export function registerDeadlines(on: On) {
                   )}
                 </Box>
               )}
-              {view.guide !== null ? (
+              {view.note !== '' ? <Text>{view.note}</Text> : null}
+              {view.guides.map(g => (
                 <Box gap={1}>
                   <Text dimColor>→</Text>
-                  <Link href={view.guide.url} label={view.guide.label} />
+                  <Link href={g.url} label={g.label} />
                 </Box>
-              ) : null}
+              ))}
               {view.isVerified
                 ? meter(t, { fraction: view.fraction, tone: view.tone, columns })
                 : null}

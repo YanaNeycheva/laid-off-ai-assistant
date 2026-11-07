@@ -10,6 +10,7 @@ The shared case file. The orchestrator and every subagent read and write it. Thi
 - **Ниво / години опит:** {}
 - **Индустрия:** {}
 - **Локация / дистанционно:** {}
+- **Адрес за Бюро по труда:** {град и район по постоянен адрес (лична карта); настоящ адрес, ако живее другаде; `неизвестно`, докато не го каже}
 - **Език за работа/CV:** {BG / EN / и двете}
 
 ## Layoff facts (for story + legal)
@@ -73,6 +74,8 @@ Where the person is in the four stages of the guide. One entry. `stage` is one f
 - **Срок за бюро по труда:** {дата}
 - **Срок за НОИ:** {дата}
 - **Оценка на обезщетение:** {estimate — да се потвърди в НОИ}
+- **Бюро по труда (ДБТ):** {дирекция „Бюро по труда“ за адреса от Profile: име, адрес, телефон, работно време, линк към страницата ѝ в az.government.bg; или `за проверка` + линк към списъка с бюра}
+- **Здравно осигуряване:** {кой плаща сега (държавата докато тече ПОБ / човекът сам) · сума на месец · срок за обр. 7 и за вноската (дати) · линкове към НАП}
 - **За потвърждаване:** {}
 
 ## Deadlines (machine-read by the comeback mod — orchestrator / bg-navigator fill)
@@ -82,6 +85,7 @@ One entry per deadline. Keys are fixed ASCII; values are free text, except `due`
   start: {YYYY-MM-DD — по желание, откога тече срокът, напр. датата на прекратяване}
   docs: {нужни документи, разделени със запетая}
   fact: {bureau-registration | noi-application | health-insurance}
+  note: {по желание — кратко за сумата или правилото, напр. „Мин. 24.81 EUR/мес. · обр. 7 и вноската до 25-о“; само от `bg-legal.md`, показва се в панела както е}
 
 ## Finances (machine-read by the comeback mod — orchestrator / bg-navigator fill)
 Numbers the person shared, for the Финансов хоризонт pane. One entry; keys are fixed ASCII. All amounts are plain numbers in `currency` (default EUR). The mod only adds and divides these — it NEVER derives the НОИ benefit from legal rules. The НОИ amount counts toward the headline figure only when `noi-confirmed` is `да`; otherwise it is shown as "за потвърждение в НОИ" and excluded.

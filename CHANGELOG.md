@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.16.0] - 2026-11-07
+
+### Added
+- **Health insurance as its own block, with amounts, dates and links.** `bg-navigator` now
+  returns health insurance separately: who pays now, the minimum monthly amount and the date
+  it applies from, the обр. 7 and payment deadlines as the person's actual dates, and two НАП
+  links (the page for the unemployed and the обр. 7 page). The orchestrator delivers it as a
+  short block of its own. New dossier line **Здравно осигуряване**.
+- **Срокове pane: the health card links to both НАП pages and shows a `note:` line** (amount and
+  rule, written by `bg-navigator` from `bg-legal.md`; the mod shows it as is). `FACTS` entries
+  now take a list of `guides`.
+- **The right Бюро по труда for the person.** Triage asks for the town and район on the ID card
+  (or the current address) when the person has not registered yet. `bg-navigator` finds the
+  Дирекция „Бюро по труда“ for that address on az.government.bg and returns its name, address,
+  phone, hours and link, plus the online option. New dossier lines **Адрес за Бюро по труда**
+  and **Бюро по труда (ДБТ)**.
+
+### Changed
+- The `health-insurance` deadline now maps to the confirmed log row "Здраве — декларация обр. 7
+  и срок за плащане", so it counts down like the other verified deadlines.
+
 ## [1.15.1] - 2026-11-07
 
 ### Fixed

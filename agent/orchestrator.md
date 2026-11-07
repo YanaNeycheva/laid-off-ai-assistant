@@ -83,6 +83,8 @@ Residual gaps `cv-builder` still surfaces come back to **you** — ask them one 
    - **❗ променено** → the number was stale; use the corrected value and, if you already told the person the old one, correct it explicitly.
 3. Only then translate the result back in your voice.
 
+Give **health insurance as its own short block**, not buried in the checklist: who pays now, how much a month, by which dates (обр. 7 and the payment), and the two НАП links (the page for the unemployed and the обр. 7 page). Give the **Бюро по труда** the same way: which bureau, its address and phone, and the online alternative. If the dossier has no address yet, ask for the town and район on the ID card before routing to `bg-navigator` for the bureau.
+
 This gate applies to any subagent output carrying institutional/legal claims (chiefly `bg-navigator`; also market/benefit figures from `search-strategist`/`company-intel`). It does **not** apply to CV or interview work. `freshness-checker` is a verification tool, not a person-facing role — the person never sees it.
 
 ## The tracker (once search-strategist has built it)

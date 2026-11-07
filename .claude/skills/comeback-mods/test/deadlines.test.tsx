@@ -42,11 +42,29 @@ test('near fixture: amber bureau first, neutral NOI, health is за провер
   // Unverified: no countdown, official source kept.
   expect(list[2]?.isVerified).toBe(false)
   expect(list[2]?.daysLeft).toBe(null)
-  expect(list[2]?.source).toBe('https://nra.bg/wps/wcm/connect/agency/site/uslugi/deklarirane-na-zravno-osigurqvane-za-sobstvena-smetka-obrazec-7')
-  // The НАП обр. 7 page is offered so the person need not search nra.bg.
-  expect(list[2]?.guide?.url).toBe('https://nra.bg/wps/wcm/connect/agency/site/uslugi/deklarirane-na-zravno-osigurqvane-za-sobstvena-smetka-obrazec-7')
-  expect(list[0]?.guide).toBe(null)
+  expect(list[2]?.source).toBe('https://nra.bg/wps/portal/nra/osiguryavane/zdravno-osiguryavane/bezrabotni')
+  // НАП's pages are offered so the person need not search nra.bg.
+  expect(list[2]?.guides.map(g => g.url)).toEqual([
+    'https://nra.bg/wps/portal/nra/osiguryavane/zdravno-osiguryavane/bezrabotni',
+    'https://nra.bg/wps/wcm/connect/agency/site/uslugi/deklarirane-na-zravno-osigurqvane-za-sobstvena-smetka-obrazec-7',
+  ])
+  expect(list[0]?.guides).toEqual([])
   expect(bandText(nearestVerified(list)!)).toBe('⏳ 5 дни до регистрация в Бюрото по труда')
+})
+
+test('the dossier note is carried to the card as is', () => {
+  const list = views(
+    dossier('Иван Тестов', [
+      {
+        title: 'Здравно осигуряване',
+        due: '2026-12-23',
+        fact: 'health-insurance',
+        note: 'Мин. 24.81 EUR/мес. · обр. 7 и вноска до 25-о',
+      },
+    ]),
+  )
+  expect(list[0]?.note).toBe('Мин. 24.81 EUR/мес. · обр. 7 и вноска до 25-о')
+  expect(views(NEAR)[0]?.note).toBe('')
 })
 
 test('red fixture is red; far fixture is neutral', () => {

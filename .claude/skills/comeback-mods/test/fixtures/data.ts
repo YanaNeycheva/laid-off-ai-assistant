@@ -24,7 +24,7 @@ export function legalLog(opts: { bureau?: '✅ потвърдено' | '⚠️ �
 `
 }
 
-type Item = { title: string; due: string; start?: string; docs?: string; fact?: string }
+type Item = { title: string; due: string; start?: string; docs?: string; fact?: string; note?: string }
 
 export function dossier(name: string, items: Item[]) {
   const entries = items
@@ -35,6 +35,7 @@ export function dossier(name: string, items: Item[]) {
         item.start ? `  start: ${item.start}` : '',
         item.docs ? `  docs: ${item.docs}` : '',
         item.fact ? `  fact: ${item.fact}` : '',
+        item.note ? `  note: ${item.note}` : '',
       ]
         .filter(Boolean)
         .join('\n'),

@@ -25,7 +25,7 @@ You handle the Bulgarian legal/benefits clock, in **Bulgarian**. Bounded lookup 
 
 ## On invocation
 
-1. **Read `dossier.md`** — termination type (съкращение / уволнение), termination date, tenure (осигурителен стаж), and (if given) recent salary.
+1. **Read `dossier.md`** — termination type (съкращение / уволнение), termination date, tenure (осигурителен стаж), the **address for the Бюро по труда** (Profile), and (if given) recent salary.
 2. Read `knowledge-base/bg-legal.md` as the baseline facts.
 3. **Re-verify time-sensitive items** with web search (deadlines, percentages, thresholds change) against НОИ (nssi.bg) and Агенция по заетостта (az.government.bg). The facts in `bg-legal.md` are a 2026 orientation, not a guarantee.
 4. **Compute the dates and amounts with `lib/benefits.py` — never do the date/duration/money math in prose.** Call the helper in a shell (see below).
@@ -52,11 +52,13 @@ Or one figure at a time: `bureau-deadline <date>`, `noi-deadline <date>`, `durat
 ## What you compute / surface
 
 - **Bureau registration deadline** — `python -m lib.benefits bureau-deadline <date>` (7 working days, BG holidays excluded); give the actual calendar date. Online option (az.government.bg, КЕП/ПИК) vs. in person. If the deadline is already past, say so plainly (the right isn't lost, but the benefit is counted from the later registration date).
+- **Which Бюро по труда** — registration is at the bureau for the person's permanent **or** current address, in one bureau only (`bg-legal.md`). From the dossier's **Адрес за Бюро по труда**, find the Дирекция „Бюро по труда“ (ДБТ) that covers that town and, in cities with several, that район. Search the Агенция по заетостта site (az.government.bg — regional structure / contacts of the ДБТ). Give the directorate's name, street address, phone, working hours if listed, and the link to its own page. If the address is `неизвестно`, return "ask the person for the town and район on their ID card" as an open item; do not guess a bureau. If you cannot match the район to one ДБТ with confidence, say so and give the link to the official list of bureaus. Mention the online option too, so the person knows they may not need to go in person.
 - **НОИ молба-декларация** — `noi-deadline <date>` (+3 months); give the actual date.
 - **Eligibility** — 12 months of осигурителен стаж in the last 18; flag if unclear (the helper does not check this — it's a judgement call from the dossier).
 - **Benefit duration** — `duration <years> <days>` (чл. 54в table); give the exact month count.
 - **Benefit estimate** — `estimate <avg_monthly_income> <working_days>` (~60% of the average осигурителен доход, clamped to the daily bounds, capped at 2300); give the figure only if salary is known, clearly labeled an estimate.
-- **Health insurance continuity** and severance orientation (tie to съкращение vs. уволнение).
+- **Health insurance — its own block, separate from the rest.** From `bg-legal.md` only: who pays now (the state while ПОБ is paid; the person themselves when there is no ПОБ, it is refused, or it has ended), the current **minimum monthly amount** with the date it applies from, the **deadlines** as actual calendar dates for this person (обр. 7 and the first payment: by the 25th of the month after the month the obligation began; if the 25th is a non-working day, give the last working day before it as the safe date, per `bg-legal.md`), and what happens if payments are missed (rights interrupted after more than 3 unpaid months in 36). Always include both НАП links: the page for the unemployed (https://nra.bg/wps/portal/nra/osiguryavane/zdravno-osiguryavane/bezrabotni) and the обр. 7 page (https://nra.bg/wps/wcm/connect/agency/site/uslugi/deklarirane-na-zravno-osigurqvane-za-sobstvena-smetka-obrazec-7). Write it to the dossier's **Здравно осигуряване** line, and add a `health-insurance` entry to **Deadlines** with the date and a short `note:` (amount + rule) when the person pays themselves.
+- **Severance orientation** (tie to съкращение vs. уволнение).
 - **Трудова книжка / електронен трудов запис** — since 1 June 2025 the record is electronic (Регистър на заетостта at НАП); the paper book was finalized (tenure to 31 May 2025) and returned during the transition (to 1 June 2026). Tell the person to **check their electronic record at НАП** that the termination is logged with the correct ground and tenure. Do **not** describe the old "employer fills in and hands back the labour book" flow for post-June-2025 service — that's the exact error to avoid.
 
 ## Rules

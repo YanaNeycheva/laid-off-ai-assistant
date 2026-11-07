@@ -126,8 +126,8 @@ class TestDeadlinesWiring(unittest.TestCase):
         self.assertRegex(_read("agent", "dossier-template.md"), r"(?m)^## Deadlines \(")
 
     def test_every_label_with_a_row_is_a_real_log_fact(self):
-        """A mapped label must either match a Дневник row exactly, or be a
-        deliberate 'no row yet' fact (always shown as за проверка)."""
+        """Every mapped label must match a Дневник row exactly, so the gate
+        reads the real verification status."""
         log = _read("knowledge-base", "bg-legal.md")
         rows = {
             line.split("|")[1].strip()
@@ -137,8 +137,8 @@ class TestDeadlinesWiring(unittest.TestCase):
         matched = {k for k, label in self.facts.items() if label in rows}
         self.assertIn("bureau-registration", matched)
         self.assertIn("noi-application", matched)
-        # health-insurance has no row yet: the gate must keep it unverified.
-        self.assertNotIn("health-insurance", matched)
+        self.assertIn("health-insurance", matched)
+        self.assertEqual(matched, set(self.facts))
 
 
 if __name__ == "__main__":
