@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.1] - 2026-11-07
+
+### Fixed
+- `mods/README.md` feature table: the runway row now reads `shipped` and names its `Finances` dossier
+  section; the pipeline row's note is in English like the rest of the doc. Documentation only.
+
 ## [1.12.0] - 2026-11-07
 
 ### Added

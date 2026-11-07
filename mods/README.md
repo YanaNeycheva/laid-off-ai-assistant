@@ -10,9 +10,9 @@ User-facing text is Bulgarian; code, comments and docs are English (see the root
 |---|---|---|---|---|
 | 1 | Срокове (deadlines): band + pane | `hooks/features/deadlines.tsx` | `Deadlines` | shipped |
 | 2 | Етап (journey) | `hooks/features/journey.tsx` | `Journey` | shipped |
-| 3 | Кандидатури (pipeline) | `hooks/features/pipeline.tsx` | — (чете tracker.md) | shipped |
+| 3 | Кандидатури (pipeline) | `hooks/features/pipeline.tsx` | - (reads `tracker.md`) | shipped |
 | 4 | Документи (documents) | `hooks/features/documents.tsx` | - (scans `Personal/`; reads `CV`, `Interviews`, `Company intel`; no new section, so recipe step 1 is skipped) | shipped |
-| 5 | Финансов хоризонт (runway) | `hooks/features/runway.tsx` | - | planned |
+| 5 | Финансов хоризонт (runway) | `hooks/features/runway.tsx` | `Finances` | shipped |
 
 ## Layout
 
