@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.15.1] - 2026-11-07
+
+### Fixed
+- **`bg-legal.md`: minimum health contribution for the unemployed is 24.81 EUR from
+  01.08.2026** (was listed as 22.03 EUR, the amount for 01.01–31.07.2026). The minimum insurable
+  income for the self-insured rose from 550.66 to 620.20 EUR (ЗБДОО 2026, ДВ бр. 68/28.07.2026);
+  the contribution is 8% of half of it. Status `❗ променено`. The 24.81 figure was not read word
+  for word on nra.bg, so the row and section tell the person to confirm in НАП or with its
+  health-insurance calculator. Who pays on ПОБ, the обр. 7 deadline and channels, and the
+  interruption rule were re-confirmed.
+
 ## [1.15.0] - 2026-11-07
 
 ### Added
