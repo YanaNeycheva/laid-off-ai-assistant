@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mod mockups: comeback users</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div class="page">
+  <nav class="nav"><a href="index.html">← All mockups</a><a href="claude-code-mods.html">← Claude Code mods</a></nav>
+  <header>
+    <h1>Mods for comeback users</h1>
+    <p>Five static mockups for the people who use <code>/comeback</code> after a layoff. They show the person's own situation, read from their <code>Personal/&lt;date&gt;-&lt;slug&gt;/dossier.md</code>, in Bulgarian. The persona ("Мария") and every date and amount are invented sample data, not verified legal facts.</p>
+    <div class="toc">
+      <a href="#deadlines">1 · Срокове</a>
+      <a href="#journey">2 · Етап</a>
+      <a href="#pipeline">3 · Кандидатури</a>
+      <a href="#artifacts">4 · Документи</a>
+      <a href="#runway">5 · Финансов хоризонт</a>
+    </div>
+  </header>
+
+  <!-- 1. DEADLINES -->
+  <section class="mod" id="deadlines">
+    <div class="mod-head">
+      <span class="num">01</span><h2>Deadlines (Срокове)</h2>
+      <div class="tags"><span class="tag">band</span><span class="tag">pane</span></div>
+    </div>
+    <p class="mod-why">The deadlines that cost money if missed, as days left. The band turns amber, then red, as a date gets close. Only facts the freshness-checker confirmed are shown, each with its "проверено на" date.</p>
+    <div class="win">
+      <div class="titlebar"><div class="dots"><i></i><i></i><i></i></div>comeback — Мария</div>
+      <div class="win-main">
+        <div class="chat">
+          <div class="msg-user">Какво трябва да направя тази седмица?</div>
+          <div class="msg-ai">Първо регистрацията в Бюрото по труда — тя е с най-близък срок. Документите, които ти трябват, са в списъка вдясно.</div>
+        </div>
+        <div class="band warn"><span>⏳ <b>5 дни</b> до регистрация в Бюрото по труда</span><span class="spacer"></span><span style="font-size:12px;opacity:.8">проверено на 02.11.2026</span></div>
+        <div class="prompt">Напиши съобщение…</div>
+        <div class="statusline"><span>comeback</span><span>етап: опора</span></div>
+      </div>
+      <aside class="pane">
+        <div class="pane-head">Срокове <span class="sub">3 активни</span></div>
+        <div class="pane-body">
+          <div class="card" style="border-color:#6b5524">
+            <div class="row"><b class="grow">Регистрация в Бюрото</b><span class="pill warn">5 дни</span></div>
+            <div class="muted" style="font-size:12px">до 12.11.2026 · лична карта, трудова книжка</div>
+            <div class="meter" style="margin-top:8px"><span class="grow-in" style="width:30%;background:var(--warn)"></span></div>
+          </div>
+          <div class="card">
+            <div class="row"><b class="grow">Заявление за обезщетение (НОИ)</b><span class="pill">19 дни</span></div>
+            <div class="muted" style="font-size:12px">до 26.11.2026 · подава се чрез Бюрото</div>
+            <div class="meter" style="margin-top:8px"><span class="grow-in" style="width:62%;background:var(--ok)"></span></div>
+          </div>
+          <div class="card">
+            <div class="row"><b class="grow">Здравно осигуряване</b><span class="pill info">за проверка</span></div>
+            <div class="muted" style="font-size:12px">не е потвърдено · виж nap.bg</div>
+          </div>
+          <div class="dim" style="font-size:11px">Ориентировъчно. Провери в НОИ и Агенцията по заетостта.</div>
+        </div>
+      </aside>
+    </div>
+    <div class="mod-notes">Data: dates from the dossier plus the verification log in <code>bg-legal.md</code>. Needs a fixed date format in the dossier template. An unconfirmed claim shows as "за проверка", never as a countdown.</div>
+  </section>
+
+  <!-- 2. JOURNEY -->
+  <section class="mod" id="journey">
+    <div class="mod-head">
+      <span class="num">02</span><h2>Where they are (Етап)</h2>
+      <div class="tags"><span class="tag">pane</span><span class="tag">status line</span></div>
+    </div>
+    <p class="mod-why">The four stages of the guide, with the current one highlighted and the next small step spelled out. It's calm on purpose: no points or streaks, just orientation.</p>
+    <div class="win">
+      <div class="titlebar"><div class="dots"><i></i><i></i><i></i></div>comeback — Мария</div>
+      <div class="win-main">
+        <div class="chat">
+          <div class="msg-user">CV-то е готово. Сега какво?</div>
+          <div class="msg-ai">Следващата стъпка е списък с 15 компании, които наистина те интересуват. Ще го направим заедно.</div>
+        </div>
+        <div class="prompt solo">Напиши съобщение…</div>
+        <div class="statusline"><span>comeback</span><span class="hl">етап 3/4 · търсене</span></div>
+      </div>
+      <aside class="pane">
+        <div class="pane-head">Твоят път</div>
+        <div class="pane-body">
+          <div class="stepper">
+            <div class="step done"><div class="b">✓</div><div><div class="t">Опора</div><div class="d">Регистрация, бюджет, първата седмица</div></div></div>
+            <div class="step done"><div class="b">✓</div><div><div class="t">CV</div><div class="d">Базово CV v2, ATS-проверено</div></div></div>
+            <div class="step now"><div class="b">3</div><div><div class="t">Търсене</div><div class="d"><b style="color:var(--text)">Следва:</b> списък с 15 компании</div></div></div>
+            <div class="step"><div class="b">4</div><div><div class="t">Интервюта</div><div class="d">Историята за напускането, пробни интервюта</div></div></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <div class="mod-notes">Data: the stage field and next step from the dossier, written by the orchestrator.</div>
+  </section>
+
+  <!-- 3. PIPELINE -->
+  <section class="mod" id="pipeline">
+    <div class="mod-head">
+      <span class="num">03</span><h2>Application pipeline (Кандидатури)</h2>
+      <div class="tags"><span class="tag">pane</span></div>
+    </div>
+    <p class="mod-why">The search-strategist's tracker as a board. The person sees the effort they've put in even while no offers have come yet, and which applications have gone quiet and need a follow-up.</p>
+    <div class="win no-pane">
+      <div class="titlebar"><div class="dots"><i></i><i></i><i></i></div>comeback — Мария · Кандидатури</div>
+      <div class="win-main">
+        <div class="chat">
+          <div class="kanban">
+            <div class="kcol"><h4>Кандидатствах <span>4</span></h4>
+              <div class="kcard">Telerik Academy<div class="dim">Project Manager · 3 дни</div></div>
+              <div class="kcard">Payhawk<div class="dim">Ops Lead · 6 дни</div></div>
+              <div class="kcard" style="border-color:#6b5524">Dext<div class="warn" style="font-size:11px">12 дни · време за follow-up</div></div>
+              <div class="kcard">Shelly<div class="dim">Program Manager · 1 ден</div></div>
+            </div>
+            <div class="kcol"><h4>Разговор <span>2</span></h4>
+              <div class="kcard">Chaos<div class="dim">HR скрийнинг · 14.11</div></div>
+              <div class="kcard">Sumup<div class="dim">Hiring manager · 18.11</div></div>
+            </div>
+            <div class="kcol"><h4>Оферта <span>0</span></h4>
+              <div class="kcard dim" style="border-style:dashed;background:none">Още няма. Нормално е на 3-та седмица.</div>
+            </div>
+            <div class="kcol"><h4>Отказ <span>1</span></h4>
+              <div class="kcard" style="opacity:.6">Progress<div class="dim">след 1-во интервю</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="prompt solo">Напиши съобщение…</div>
+        <div class="statusline"><span>comeback</span><span>7 кандидатури · 2 разговора</span></div>
+      </div>
+    </div>
+    <div class="mod-notes">Data: the tracker file in the person's folder. Company names are only examples. The "follow-up" flag comes from a simple days-since rule.</div>
+  </section>
+
+  <!-- 4. ARTIFACTS -->
+  <section class="mod" id="artifacts">
+    <div class="mod-head">
+      <span class="num">04</span><h2>Documents produced (Документи)</h2>
+      <div class="tags"><span class="tag">pane</span></div>
+    </div>
+    <p class="mod-why">Everything made so far (base CV versions, tailored CVs, interview notes) with dates. One click opens it. No digging through folders.</p>
+    <div class="win">
+      <div class="titlebar"><div class="dots"><i></i><i></i><i></i></div>comeback — Мария</div>
+      <div class="win-main">
+        <div class="chat">
+          <div class="msg-user">Изпрати ми CV-то, което направихме за Chaos</div>
+          <div class="msg-ai">Ето го — версия 1 за Chaos, от 09.11. Отваря се от панела вдясно.</div>
+        </div>
+        <div class="prompt solo">Напиши съобщение…</div>
+        <div class="statusline"><span>comeback</span><span>6 документа</span></div>
+      </div>
+      <aside class="pane">
+        <div class="pane-head">Документи</div>
+        <div class="pane-body">
+          <div class="section-label">Базово CV</div>
+          <div class="row"><span>📄</span><span class="grow">CV_Maria_v2 <span class="pill ok">текущо</span></span><span class="mono dim">05.11</span></div>
+          <div class="row dim"><span>📄</span><span class="grow">CV_Maria_v1</span><span class="mono">01.11</span></div>
+          <div class="section-label">Пригодени</div>
+          <div class="row"><span>🎯</span><span class="grow">Chaos · Program Manager</span><span class="mono dim">09.11</span></div>
+          <div class="row"><span>🎯</span><span class="grow">Sumup · Ops Manager</span><span class="mono dim">10.11</span></div>
+          <div class="section-label">Подготовка</div>
+          <div class="row"><span>🗒</span><span class="grow">Пробно интервю #1 — обратна връзка</span><span class="mono dim">08.11</span></div>
+          <div class="row"><span>🗒</span><span class="grow">Chaos — въпроси за задаване</span><span class="mono dim">11.11</span></div>
+        </div>
+      </aside>
+    </div>
+    <div class="mod-notes">Data: a listing of the person's <code>Personal/</code> folder. Read-only, local, nothing is sent anywhere.</div>
+  </section>
+
+  <!-- 5. RUNWAY -->
+  <section class="mod" id="runway">
+    <div class="mod-head">
+      <span class="num">05</span><h2>Money runway (Финансов хоризонт)</h2>
+      <div class="tags"><span class="tag">pane</span><span class="tag">sensitive</span></div>
+    </div>
+    <p class="mod-why">A rough picture of how many months savings, severance and the benefit cover. It answers the 3 a.m. question with a number instead of dread. It's always labelled as an estimate and points to НОИ.</p>
+    <div class="win">
+      <div class="titlebar"><div class="dots"><i></i><i></i><i></i></div>comeback — Мария</div>
+      <div class="win-main">
+        <div class="chat">
+          <div class="msg-user">Колко време мога да издържа без работа?</div>
+          <div class="msg-ai">По числата, които ми даде, около 7 месеца при сегашните разходи. Това е ориентир, не обещание — сумата на обезщетението я потвърждава НОИ.</div>
+        </div>
+        <div class="prompt solo">Напиши съобщение…</div>
+        <div class="statusline"><span>comeback</span><span>~7 месеца хоризонт</span></div>
+      </div>
+      <aside class="pane">
+        <div class="pane-head">Хоризонт <span class="sub">ориентировъчно</span></div>
+        <div class="pane-body">
+          <div style="font-size:30px;font-weight:600">~7 <span style="font-size:15px;color:var(--muted);font-weight:400">месеца</span></div>
+          <div class="meter" style="height:16px">
+            <span class="grow-in" style="width:28%;background:var(--violet)"></span>
+            <span class="grow-in" style="width:44%;background:var(--info)"></span>
+            <span class="grow-in" style="width:28%;background:var(--ok)"></span>
+          </div>
+          <div class="bars-x"><span>ное</span><span>дек</span><span>яну</span><span>фев</span><span>мар</span><span>апр</span><span>май</span></div>
+          <div class="legend">
+            <i style="background:var(--violet)"></i><span>Обезщетение при съкращение</span><span class="v">2 м.</span>
+            <i style="background:var(--info)"></i><span>Обезщетение от НОИ</span><span class="v">~3 м.</span>
+            <i style="background:var(--ok)"></i><span>Спестявания</span><span class="v">2 м.</span>
+          </div>
+          <div class="card" style="font-size:12px;color:var(--muted)">Разходи: 1 800 лв./мес. (по твоите данни). Сумата от НОИ е за потвърждение в НОИ.</div>
+        </div>
+      </aside>
+    </div>
+    <div class="mod-notes">Data: numbers the person gave, stored in the dossier. Highest risk of the five: it must never read as financial advice or a guaranteed figure.</div>
+  </section>
+</div>
+</body>
+</html>

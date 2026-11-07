@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mod mockups: Claude Code users</title>
+<link rel="stylesheet" href="shared.css">
+</head>
+<body>
+<div class="page">
+  <nav class="nav"><a href="index.html">← All mockups</a><a href="comeback-mods.html">comeback mods →</a></nav>
+  <header>
+    <h1>Mods for Claude Code users</h1>
+    <p>Six static mockups of mods that show what is normally hidden while Claude works. Every number here is sample data. Each mockup shows where the mod draws: a side pane, a band above the prompt, the status line, or a toast.</p>
+    <div class="toc">
+      <a href="#ctx">1 · Context fill</a>
+      <a href="#timeline">2 · Activity timeline</a>
+      <a href="#files">3 · Files touched</a>
+      <a href="#agents">4 · Agents &amp; tasks</a>
+      <a href="#risk">5 · Risky-action radar</a>
+      <a href="#spend">6 · Tokens per turn</a>
+    </div>
+  </header>
+
+  <!-- 1. CONTEXT FILL -->
+  <section class="mod" id="ctx">
+    <div class="mod-head">
+      <span class="num">01</span><h2>Context window fill</h2>
+      <div class="tags"><span class="tag">status line</span><span class="tag">pane</span><span class="tag">toast</span></div>
+    </div>
+    <p class="mod-why">How full the context window is and what fills it. You see it coming before Claude summarizes the conversation, and you can tell whether a big tool output or a large file is the cause.</p>
+    <div class="win">
+      <div class="titlebar"><div class="dots"><i></i><i></i><i></i></div>LayOff — main</div>
+      <div class="win-main has-toast">
+        <div class="chat">
+          <div class="msg-user">Read all of knowledge-base and summarise it</div>
+          <div class="tool"><b>Read</b> knowledge-base/guide.md <span class="dim">· 1,284 lines</span></div>
+          <div class="tool"><b>Read</b> knowledge-base/bg-legal.md <span class="dim">· 412 lines</span></div>
+          <div class="msg-ai">The guide covers four stages: footing, CV, search and interviews…</div>
+        </div>
+        <div class="toast">⚠ Context 81% full. guide.md alone takes 22%.</div>
+        <div class="prompt solo">Ask Claude anything…</div>
+        <div class="statusline">
+          <span>opus-5.5</span>
+          <span class="hl">ctx 81% <span class="warn">▓▓▓▓▓▓▓▓</span><span class="dim">░░</span></span>
+          <span>main</span>
+        </div>
+      </div>
+      <aside class="pane">
+        <div class="pane-head">Context <span class="sub">162k / 200k</span></div>
+        <div class="pane-body">
+          <div class="meter" style="height:14px">
+            <span class="grow-in" style="width:9%;background:var(--violet)"></span>
+            <span class="grow-in" style="width:6%;background:var(--info)"></span>
+            <span class="grow-in" style="width:38%;background:var(--accent)"></span>
+            <span class="grow-in" style="width:19%;background:var(--warn)"></span>
+            <span class="grow-in" style="width:9%;background:var(--ok)"></span>
+          </div>
+          <div class="legend">
+            <i style="background:var(--violet)"></i><span>System prompt</span><span class="v">18k</span>
+            <i style="background:var(--info)"></i><span>Tools &amp; MCP</span><span class="v">12k</span>
+            <i style="background:var(--accent)"></i><span>Files read</span><span class="v">76k</span>
+            <i style="background:var(--warn)"></i><span>Tool output</span><span class="v">38k</span>
+            <i style="background:var(--ok)"></i><span>Messages</span><span class="v">18k</span>
+          </div>
+          <div class="section-label">Largest items</div>
+          <div class="row"><span class="grow mono">guide.md</span><span class="mono muted">44k</span></div>
+          <div class="row"><span class="grow mono">Bash: npm test output</span><span class="mono muted">21k</span></div>
+          <div class="row"><span class="grow mono">bg-legal.md</span><span class="mono muted">15k</span></div>
+        </div>
+      </aside>
+    </div>
+    <div class="mod-notes">Data: <code>$.session.usage({ breakdown: "full" })</code>. Status line updated after each turn, toast fires once when it crosses 80%.</div>
+  </section>
+
+  <!-- 2. TIMELINE -->
+  <section class="mod" id="timeline">
+    <div class="mod-head">
+      <span class="num">02</span><h2>Live activity timeline</h2>
+      <div class="tags"><span class="tag">pane</span></div>
+    </div>
+    <p class="mod-why">Every tool call in order, with duration and result. Failures stand out, and you can see what Claude is doing right now without opening collapsed blocks.</p>
+    <div class="win">
+      <div class="titlebar"><div class="dots"><i></i><i></i><i></i></div>LayOff — main</div>
+      <div class="win-main">
+        <div class="chat">
+          <div class="msg-user">Fix the failing test in the CV builder</div>
+          <div class="msg-ai">Running the tests to see what fails…</div>
+          <div class="tool"><span class="spin"></span><b>Edit</b> tests/cv.test.ts</div>
+        </div>
+        <div class="prompt solo">Ask Claude anything…</div>
+        <div class="statusline"><span>opus-5.5</span><span>ctx 34%</span></div>
+      </div>
+      <aside class="pane">
+        <div class="pane-head">Activity <span class="sub">7 calls · 1 failed</span></div>
+        <div class="pane-body">
+          <div class="timeline">
+            <div class="tl-item"><div class="tl-dot ok">G</div><div><b>Grep</b> <span class="mono muted">"tailor"</span></div><span class="mono dim">0.2s</span></div>
+            <div class="tl-item"><div class="tl-dot ok">R</div><div><b>Read</b> <span class="mono muted">cv-builder.md</span></div><span class="mono dim">0.1s</span></div>
+            <div class="tl-item"><div class="tl-dot bad">$</div><div><b>Bash</b> <span class="mono muted">npm test</span><div class="bad" style="font-size:12px">exit 1 · 2 failing</div></div><span class="mono dim">8.4s</span></div>
+            <div class="tl-item"><div class="tl-dot ok">R</div><div><b>Read</b> <span class="mono muted">tests/cv.test.ts</span></div><span class="mono dim">0.1s</span></div>
+            <div class="tl-item"><div class="tl-dot ok">M</div><div><b>docs</b> <span class="mono muted">mcp · query</span></div><span class="mono dim">1.9s</span></div>
+            <div class="tl-item"><div class="tl-dot run"><span class="spin" style="width:10px;height:10px"></span></div><div><b>Edit</b> <span class="mono muted">tests/cv.test.ts</span></div><span class="mono accent pulse" style="color:var(--accent)">…</span></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <div class="mod-notes">Data: an <code>on('tool.call')</code> hook that times <code>await next(e)</code> and stores each result in a <code>$.state</code> atom the pane reads.</div>
+  </section>
+
+  <!-- 3. FILES TOUCHED -->
+  <section class="mod" id="files">
+    <div class="mod-head">
+      <span class="num">03</span><h2>Files touched this session</h2>
+      <div class="tags"><span class="tag">band</span><span class="tag">pane</span></div>
+    </div>
+    <p class="mod-why">Which files Claude read and which it changed, with line counts. Answers "what did it actually change?" before you commit.</p>
+    <div class="win">
+      <div class="titlebar"><div class="dots"><i></i><i></i><i></i></div>LayOff — main</div>
+      <div class="win-main">
+        <div class="chat">
+          <div class="msg-user">Rename the dossier field "stage" to "phase" everywhere</div>
+          <div class="msg-ai">Done. I updated the template, the orchestrator and two subagents.</div>
+        </div>
+        <div class="band"><span>✎ <b>4 files edited</b> · 6 read</span><span class="spacer"></span><span class="pill warn">uncommitted</span><button>Show diff</button></div>
+        <div class="prompt">Ask Claude anything…</div>
+        <div class="statusline"><span>opus-5.5</span><span>ctx 41%</span></div>
+      </div>
+      <aside class="pane">
+        <div class="pane-head">Files <span class="sub">+38 −21</span></div>
+        <div class="pane-body">
+          <div class="section-label">Edited</div>
+          <div class="tree">
+            <div class="f">▾ agent/</div>
+            <div class="f ind1"><span class="grow">dossier-template.md</span><span class="add">+6</span><span class="del">−6</span></div>
+            <div class="f ind1"><span class="grow">orchestrator.md</span><span class="add">+14</span><span class="del">−9</span></div>
+            <div class="f">▾ .claude/agents/</div>
+            <div class="f ind1"><span class="grow">cv-builder.md</span><span class="add">+9</span><span class="del">−3</span></div>
+            <div class="f ind1"><span class="grow">search-strategist.md</span><span class="add">+9</span><span class="del">−3</span></div>
+          </div>
+          <div class="section-label">Read only</div>
+          <div class="tree dim">
+            <div class="f">README.md</div><div class="f">CLAUDE.md</div><div class="f">agent/triage.md</div><div class="f">+3 more</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <div class="mod-notes">Data: <code>tool.call</code> hooks on Read / Edit / Write collect paths; the band is an <code>AbovePrompt</code> render that hides itself when nothing was edited.</div>
+  </section>
+
+  <!-- 4. AGENTS -->
+  <section class="mod" id="agents">
+    <div class="mod-head">
+      <span class="num">04</span><h2>Subagents &amp; background tasks</h2>
+      <div class="tags"><span class="tag">band</span><span class="tag">pane</span><span class="tag">sound</span></div>
+    </div>
+    <p class="mod-why">What is running in the background, which agent type, and for how long. A short sound plays when one finishes, so you can look away.</p>
+    <div class="win">
+      <div class="titlebar"><div class="dots"><i></i><i></i><i></i></div>LayOff — main</div>
+      <div class="win-main">
+        <div class="chat">
+          <div class="msg-user">Check the benefits facts and build the CV in parallel</div>
+          <div class="msg-ai">Started bg-navigator and cv-builder. The freshness-checker will verify the facts when bg-navigator is done.</div>
+        </div>
+        <div class="band"><span class="spin"></span><span><b>2 agents running</b> · 1 shell</span><span class="spacer"></span><span class="pill ok">1 done</span></div>
+        <div class="prompt">Ask Claude anything…</div>
+        <div class="statusline"><span>opus-5.5</span><span>ctx 28%</span></div>
+      </div>
+      <aside class="pane">
+        <div class="pane-head">Background <span class="sub">3 active</span></div>
+        <div class="pane-body">
+          <div class="card">
+            <div class="row"><span class="spin"></span><b class="grow">bg-navigator</b><span class="mono dim">1m 42s</span></div>
+            <div class="muted" style="font-size:12px;margin-top:4px">WebSearch · НОИ benefit rules</div>
+            <div class="meter" style="margin-top:8px"><span class="pulse" style="width:65%;background:var(--accent)"></span></div>
+          </div>
+          <div class="card">
+            <div class="row"><span class="spin"></span><b class="grow">cv-builder</b><span class="mono dim">0m 58s</span></div>
+            <div class="muted" style="font-size:12px;margin-top:4px">Skill · /build-cv</div>
+            <div class="meter" style="margin-top:8px"><span class="pulse" style="width:30%;background:var(--accent)"></span></div>
+          </div>
+          <div class="card">
+            <div class="row"><span class="spin"></span><b class="grow mono">npm run dev</b><span class="pill info">shell</span></div>
+          </div>
+          <div class="card" style="opacity:.6">
+            <div class="row"><span class="ok">✓</span><b class="grow">Explore</b><span class="mono dim">done · 0m 31s</span></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+    <div class="mod-notes">Data: <code>agent.spawn</code> hook for start and finish, plus the session's task list; <code>$.audio.play</code> on finish.</div>
+  </section>
+
+  <!-- 5. RISK RADAR -->
+  <section class="mod" id="risk">
+    <div class="mod-head">
+      <span class="num">05</span><h2>Risky-action radar</h2>
+      <div class="tags"><span class="tag">band</span><span class="tag">tool hook</span></div>
+    </div>
+    <p class="mod-why">Flags commands that delete data, rewrite git history, or write outside the project, and pauses them until you decide. You don't have to read every command to catch the dangerous ones.</p>
+    <div class="win no-pane">
+      <div class="titlebar"><div class="dots"><i></i><i></i><i></i></div>LayOff — main</div>
+      <div class="win-main">
+        <div class="chat">
+          <div class="msg-user">Clean up the old test output</div>
+          <div class="msg-ai">I'll remove the generated output folders.</div>
+          <div class="tool"><span class="warn">⏸</span><b>Bash</b> rm -rf ../uncoachable.work/dist Personal/</div>
+        </div>
+        <div class="band bad">
+          <span>⚠ <b>Paused:</b> deletes outside the project and the git-ignored <span class="mono">Personal/</span> folder (person data, no backup)</span>
+          <span class="spacer"></span><button>Allow once</button><button class="btn primary">Block</button>
+        </div>
+        <div class="prompt">Ask Claude anything…</div>
+        <div class="statusline"><span>opus-5.5</span><span class="bad">radar: 1 paused</span></div>
+      </div>
+    </div>
+    <div class="mod-notes">Data: <code>on('tool.call', {tool:'Bash'})</code> matches patterns (<code>rm -rf</code>, <code>push --force</code>, <code>reset --hard</code>, paths outside cwd) and returns <code>{ deny }</code> until you allow it.</div>
+  </section>
+
+  <!-- 6. SPEND -->
+  <section class="mod" id="spend">
+    <div class="mod-head">
+      <span class="num">06</span><h2>Tokens per turn</h2>
+      <div class="tags"><span class="tag">pane</span></div>
+    </div>
+    <p class="mod-why">Which turns were expensive and why. Input, cached input and output are stacked, so you can see when a big file read or a long answer drove the cost.</p>
+    <div class="win">
+      <div class="titlebar"><div class="dots"><i></i><i></i><i></i></div>LayOff — main</div>
+      <div class="win-main">
+        <div class="chat">
+          <div class="msg-user">Why was turn 5 so heavy?</div>
+          <div class="msg-ai">Turn 5 read guide.md (44k tokens) and ran the full test suite, which returned 21k tokens of output.</div>
+        </div>
+        <div class="prompt solo">Ask Claude anything…</div>
+        <div class="statusline"><span>opus-5.5</span><span class="hl">412k tokens this session</span></div>
+      </div>
+      <aside class="pane">
+        <div class="pane-head">Tokens per turn <span class="sub">8 turns</span></div>
+        <div class="pane-body">
+          <div class="bars">
+            <div><span class="rise" style="height:6%;background:var(--ok)"></span><span class="rise" style="height:14%;background:var(--info)"></span><span class="rise" style="height:6%;background:var(--accent)"></span></div>
+            <div><span class="rise" style="height:4%;background:var(--ok)"></span><span class="rise" style="height:20%;background:var(--info)"></span><span class="rise" style="height:4%;background:var(--accent)"></span></div>
+            <div><span class="rise" style="height:8%;background:var(--ok)"></span><span class="rise" style="height:22%;background:var(--info)"></span><span class="rise" style="height:10%;background:var(--accent)"></span></div>
+            <div><span class="rise" style="height:5%;background:var(--ok)"></span><span class="rise" style="height:28%;background:var(--info)"></span><span class="rise" style="height:5%;background:var(--accent)"></span></div>
+            <div><span class="rise" style="height:12%;background:var(--ok)"></span><span class="rise" style="height:30%;background:var(--info)"></span><span class="rise" style="height:52%;background:var(--accent)"></span></div>
+            <div><span class="rise" style="height:6%;background:var(--ok)"></span><span class="rise" style="height:46%;background:var(--info)"></span><span class="rise" style="height:6%;background:var(--accent)"></span></div>
+            <div><span class="rise" style="height:9%;background:var(--ok)"></span><span class="rise" style="height:48%;background:var(--info)"></span><span class="rise" style="height:8%;background:var(--accent)"></span></div>
+            <div><span class="rise" style="height:4%;background:var(--ok)"></span><span class="rise" style="height:50%;background:var(--info)"></span><span class="rise" style="height:3%;background:var(--accent)"></span></div>
+          </div>
+          <div class="bars-x"><span>1</span><span>2</span><span>3</span><span>4</span><span class="warn">5</span><span>6</span><span>7</span><span>8</span></div>
+          <div class="legend">
+            <i style="background:var(--accent)"></i><span>New input</span><span class="v">188k</span>
+            <i style="background:var(--info)"></i><span>Cached input</span><span class="v">196k</span>
+            <i style="background:var(--ok)"></i><span>Output</span><span class="v">28k</span>
+          </div>
+          <div class="card" style="font-size:12px"><b class="warn">Turn 5</b> · 94k · Read guide.md + Bash npm test</div>
+        </div>
+      </aside>
+    </div>
+    <div class="mod-notes">Data: per-turn usage from the response events (<code>usage</code> on each reply), grouped by turn id.</div>
+  </section>
+</div>
+</body>
+</html>
