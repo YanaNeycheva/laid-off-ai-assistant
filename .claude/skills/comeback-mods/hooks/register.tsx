@@ -12,12 +12,13 @@ export const register: Register = on => {
   // Every feature's slash command and pane, opened once per session. One hook for
   // the whole plugin (one unmatched hook per event), and deliberately NOT gated on
   // `isInteractive`: the desktop app runs with it false (see shared/session.ts).
+  // The pane opened LAST is the active tab, so Твоят път (the overview) goes last.
   on('session.start', async ($, e, next) => {
     await startDeadlines($)
-    await startJourney($)
     await startPipeline($)
     await startDocuments($)
     await startRunway($)
+    await startJourney($)
 
     return next(e)
   })

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.16.1] - 2026-11-07
+
+### Fixed
+- **Твоят път is the active tab at session start.** The pane opened last becomes the active
+  tab, and Хоризонт was opened last, so a person with no finances yet landed on an empty pane.
+  Твоят път (the overview) now opens last; its tab moves to the end of the row.
+
 ## [1.16.0] - 2026-11-07
 
 ### Added
