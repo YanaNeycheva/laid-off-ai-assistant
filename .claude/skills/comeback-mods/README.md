@@ -22,7 +22,8 @@ User-facing text is Bulgarian; code, comments and docs are English (see the root
 .claude/skills/comeback-mods/
   .claude-plugin/plugin.json     name "comeback"; version equals the repo VERSION (a test enforces it)
   hooks/hooks.json               { "modules": ["./register.tsx"] }
-  hooks/register.tsx             one registerX(on) call per feature
+  hooks/register.tsx             one registerX(on) + one startX($) call per feature; the plugin's only session.start / redraw hooks
+  hooks/shared/session.ts        StartApi: the `$` type each feature's startX receives
   hooks/features/<feature>.tsx   one file per feature: its logic, its hooks, its drawing
   hooks/shared/dossier.ts        THE shared dossier reader (below)
   hooks/shared/documents.ts      read-only discovery of CV files (base, tailored) and prep notes in the dossier
@@ -52,7 +53,7 @@ Anything two features need is built **once** in `hooks/shared/` and imported. Do
 
 1. Add a machine-readable section to `agent/dossier-template.md` (fixed ASCII keys, ISO dates), and one line telling the orchestrator or the right subagent to fill it. Only your own section.
 2. Create `hooks/features/<name>.tsx` exporting `register<Name>(on: On)`. Read data with `loadDossierSection(dossierFs($), '<Section>')`; draw with `$.ui.resolve(e)` and the helpers in `shared/ui.tsx`. Keep the logic in plain exported functions so tests can call them.
-3. Add one line to `hooks/register.tsx`. The per-turn redraw (`prompt.submit` / `turn.complete` calling `ui.invalidate('ui.render')`) is registered once there for the whole plugin, so a feature must NOT add its own (one unmatched hook per event per plugin).
+3. Add one line to `hooks/register.tsx`, and export a `start<Name>($: StartApi)` (slash command, `ui.open`) that its single `session.start` hook calls. `session.start` and the per-turn redraw (`prompt.submit` / `turn.complete` calling `ui.invalidate('ui.render')`) are registered once there for the whole plugin, so a feature must NOT add its own (one unmatched hook per event per plugin). Never gate start-up on `isInteractive`: the desktop app runs with it false, and a gated hook silently never runs there (`shared/session.ts`, `test/session.test.ts`).
 4. Any Bulgarian legal fact you show must be looked up in the verification log first (see `deadlines.tsx` and its `FACTS` map).
 5. Add fictional fixtures to `test/fixtures/` and a `<name>.test.ts(x)`.
 6. Never branch on a motion preference: every person sees the same elements and animations.

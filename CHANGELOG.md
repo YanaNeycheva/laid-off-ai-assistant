@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.15.2] - 2026-11-07
+
+### Fixed
+- **Only Срокове appeared in the desktop app.** Етап, Кандидатури, Документи and Хоризонт gated
+  their `session.start` hook on `isInteractive: true`, which is false in the desktop app and the
+  SDK, so their panes never opened and `/journey`, `/pipeline`, `/documents`, `/runway` were never
+  registered. All five now start from ONE ungated `session.start` hook in `register.tsx` that calls
+  each feature's `start<Name>($)`; the `$` type lives in `hooks/shared/session.ts`. New
+  `test/session.test.ts` starts a non-interactive session and checks all five panes and commands.
+
 ## [1.15.1] - 2026-11-07
 
 ### Fixed

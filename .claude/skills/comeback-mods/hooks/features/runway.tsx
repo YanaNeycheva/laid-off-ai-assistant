@@ -11,6 +11,7 @@
 import type { On } from 'claude-code'
 
 import { dossierFs, loadDossierSection, parseAmount, type Entry } from '../shared/dossier'
+import type { StartApi } from '../shared/session'
 import { setStatusSegment } from '../shared/status'
 import { card, legend, paneHeader, pill, stackedMeter, type Tone, type UiTable } from '../shared/ui'
 
@@ -156,18 +157,17 @@ function pending(t: UiTable) {
   )
 }
 
-export function registerRunway(on: On) {
-  on('session.start', { isInteractive: true }, async ($, e, next) => {
-    await $.command.register({
-      name: 'runway',
-      description: 'Покажи панела Финансов хоризонт',
-    })
-    void $.ui.open({ id: PANE, title: 'Хоризонт' })
-    setStatusSegment($, 'runway', statusFor(await load($)))
-
-    return next(e)
+/** Called from register.tsx's single session.start hook. */
+export async function startRunway($: StartApi) {
+  await $.command.register({
+    name: 'runway',
+    description: 'Покажи панела Финансов хоризонт',
   })
+  void $.ui.open({ id: PANE, title: 'Хоризонт' })
+  setStatusSegment($, 'runway', statusFor(await load($)))
+}
 
+export function registerRunway(on: On) {
   on('command.run', { command: 'runway' }, async $ => {
     await $.ui.open({ id: PANE, title: 'Хоризонт' })
 

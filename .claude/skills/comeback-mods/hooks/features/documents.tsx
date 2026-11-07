@@ -13,6 +13,7 @@ import type { On } from 'claude-code'
 
 import { dossierFs, findCurrentDossier } from '../shared/dossier'
 import { documentCount, scanDocuments, type DocumentsScan } from '../shared/documents'
+import type { StartApi } from '../shared/session'
 import { setStatusSegment } from '../shared/status'
 import { groupLabel, iconRow, paneHeader, type UiTable } from '../shared/ui'
 
@@ -112,19 +113,18 @@ function group(t: UiTable, g: DocGroup) {
   )
 }
 
-export function registerDocuments(on: On) {
-  on('session.start', { isInteractive: true }, async ($, e, next) => {
-    await $.command.register({
-      name: 'documents',
-      description: 'Покажи панела Документи',
-    })
-    void $.ui.open({ id: PANE, title: 'Документи' })
-    const view = await load($)
-    setStatusSegment($, 'documents', view === null ? undefined : view.summary)
-
-    return next(e)
+/** Called from register.tsx's single session.start hook. */
+export async function startDocuments($: StartApi) {
+  await $.command.register({
+    name: 'documents',
+    description: 'Покажи панела Документи',
   })
+  void $.ui.open({ id: PANE, title: 'Документи' })
+  const view = await load($)
+  setStatusSegment($, 'documents', view === null ? undefined : view.summary)
+}
 
+export function registerDocuments(on: On) {
   on('command.run', { command: 'documents' }, async $ => {
     await $.ui.open({ id: PANE, title: 'Документи' })
 

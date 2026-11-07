@@ -18,6 +18,7 @@ import {
   type Entry,
 } from '../shared/dossier'
 import { findFact, loadVerificationLog, type FactRow } from '../shared/legal'
+import type { StartApi } from '../shared/session'
 import { band, card, COLORS, meter, paneHeader, pill, toneColor, type Tone } from '../shared/ui'
 
 const PANE = 'comeback-deadlines'
@@ -192,17 +193,16 @@ async function load($: Parameters<typeof dossierFs>[0] & { clock: { now: () => P
   }
 }
 
-export function registerDeadlines(on: On) {
-  on('session.start', async ($, e, next) => {
-    await $.command.register({
-      name: 'deadlines',
-      description: 'Покажи панела Срокове',
-    })
-    void $.ui.open({ id: PANE, title: 'Срокове' })
-
-    return next(e)
+/** Called from register.tsx's single session.start hook. */
+export async function startDeadlines($: StartApi) {
+  await $.command.register({
+    name: 'deadlines',
+    description: 'Покажи панела Срокове',
   })
+  void $.ui.open({ id: PANE, title: 'Срокове' })
+}
 
+export function registerDeadlines(on: On) {
   on('command.run', { command: 'deadlines' }, async $ => {
     await $.ui.open({ id: PANE, title: 'Срокове' })
 
