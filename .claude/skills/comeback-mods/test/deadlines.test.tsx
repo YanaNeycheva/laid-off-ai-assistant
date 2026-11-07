@@ -42,7 +42,10 @@ test('near fixture: amber bureau first, neutral NOI, health is за провер
   // Unverified: no countdown, official source kept.
   expect(list[2]?.isVerified).toBe(false)
   expect(list[2]?.daysLeft).toBe(null)
-  expect(list[2]?.source).toBe('https://nap.bg')
+  expect(list[2]?.source).toBe('https://nra.bg/wps/wcm/connect/agency/site/uslugi/deklarirane-na-zravno-osigurqvane-za-sobstvena-smetka-obrazec-7')
+  // The НАП обр. 7 page is offered so the person need not search nra.bg.
+  expect(list[2]?.guide?.url).toBe('https://nra.bg/wps/wcm/connect/agency/site/uslugi/deklarirane-na-zravno-osigurqvane-za-sobstvena-smetka-obrazec-7')
+  expect(list[0]?.guide).toBe(null)
   expect(bandText(nearestVerified(list)!)).toBe('⏳ 5 дни до регистрация в Бюрото по труда')
 })
 

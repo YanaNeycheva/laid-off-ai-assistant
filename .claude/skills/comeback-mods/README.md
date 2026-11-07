@@ -77,6 +77,6 @@ Type-check with the `tsconfig.json` from the header of the engine's `claude-code
 |---|---|
 | `bureau-registration` | Срок регистрация в Бюро по труда |
 | `noi-application` | Срок молба-декларация НОИ |
-| `health-insurance` | no row yet, so always `за проверка` (official link: nap.bg) |
+| `health-insurance` | no row yet, so always `за проверка` (official link and how-to: НАП обр. 7 page on nra.bg) |
 
 A deadline counts down only if its row exists and is `✅ потвърдено`. Otherwise (row `⚠️ непроверено`, no row, or an unknown key) the pane shows a `за проверка` pill and the official link, and never a number of days. The band shows the nearest verified deadline: neutral beyond 7 days, amber at 7 or fewer, red at 2 or fewer; it is hidden when no verified deadline exists. To make a new fact count down, have `freshness-checker` add and confirm its row, then add the key to `FACTS`.

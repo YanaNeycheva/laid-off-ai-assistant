@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.15.0] - 2026-11-07
+
+### Added
+- **Срокове pane links to the НАП обр. 7 page.** The health-insurance card now carries a link
+  labelled "Как се подава декларация обр. 7 (НАП)" to НАП's service page for обр. 7. That page
+  says who files it, the deadline (25th of the following month) and the three ways to file
+  (online with ПИК/КЕП, by post, at an office), so the person does not have to search nra.bg.
+  The link shows whether or not the deadline is verified. Any `FACTS` entry can now carry such
+  a `guide` link.
+
+### Fixed
+- The health-insurance fallback source pointed to `nap.bg`; НАП's site is `nra.bg`.
+
 ## [1.14.1] - 2026-11-07
 
 ### Fixed

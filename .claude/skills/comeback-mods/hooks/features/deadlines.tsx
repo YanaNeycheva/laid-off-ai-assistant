@@ -27,8 +27,18 @@ const DEFAULT_WINDOW_DAYS = 30
 export const WARN_DAYS = 7
 export const BAD_DAYS = 2
 
-/** `fact` keys an entry may use, mapped to the Дневник на проверките row. */
-export const FACTS: Record<string, { label: string; fallbackSource: string }> = {
+/** Where to send the person so they do not have to search the official site. */
+export type Guide = { label: string; url: string }
+
+/**
+ * `fact` keys an entry may use, mapped to the Дневник на проверките row.
+ * `guide` is an optional official page that explains what to do; the card
+ * shows it whether or not the deadline is verified.
+ */
+export const FACTS: Record<
+  string,
+  { label: string; fallbackSource: string; guide?: Guide }
+> = {
   'bureau-registration': {
     label: 'Срок регистрация в Бюро по труда',
     fallbackSource: 'https://az.government.bg',
@@ -40,7 +50,13 @@ export const FACTS: Record<string, { label: string; fallbackSource: string }> = 
   // No row in the log yet: always `за проверка` until freshness-checker adds one.
   'health-insurance': {
     label: 'Срок здравно осигуряване',
-    fallbackSource: 'https://nap.bg',
+    fallbackSource: 'https://nra.bg/wps/wcm/connect/agency/site/uslugi/deklarirane-na-zravno-osigurqvane-za-sobstvena-smetka-obrazec-7',
+    // НАП service page: who files обр. 7, the deadline, and how to file
+    // (online with ПИК/КЕП, by post, at an office). Checked 2026-11-07.
+    guide: {
+      label: 'Как се подава декларация обр. 7 (НАП)',
+      url: 'https://nra.bg/wps/wcm/connect/agency/site/uslugi/deklarirane-na-zravno-osigurqvane-za-sobstvena-smetka-obrazec-7',
+    },
   },
 }
 
@@ -59,6 +75,8 @@ export type DeadlineView = {
   checked: string
   /** Unverified: the official source to look at. */
   source: string
+  /** Official how-to page for this deadline, if there is one. */
+  guide: Guide | null
 }
 
 export function toneFor(daysLeft: number): Tone {
@@ -113,6 +131,7 @@ export function buildDeadlines(
         isVerified && daysLeft !== null && window > 0 ? daysLeft / window : 0,
       checked: row?.checked ?? '',
       source: row?.source || fact?.fallbackSource || 'knowledge-base/bg-legal.md',
+      guide: fact?.guide ?? null,
     })
   }
 
@@ -240,6 +259,8 @@ export function registerDeadlines(on: On) {
                   до {formatBgDate(view.due)}
                   {view.docs !== '' ? ` · ${view.docs}` : ''}
                 </Text>
+              ) : view.guide !== null && view.guide.url === view.source ? (
+                <Text dimColor>не е потвърдено · провери на официалната страница</Text>
               ) : (
                 <Box gap={1}>
                   <Text dimColor>не е потвърдено · виж</Text>
@@ -250,6 +271,12 @@ export function registerDeadlines(on: On) {
                   )}
                 </Box>
               )}
+              {view.guide !== null ? (
+                <Box gap={1}>
+                  <Text dimColor>→</Text>
+                  <Link href={view.guide.url} label={view.guide.label} />
+                </Box>
+              ) : null}
               {view.isVerified
                 ? meter(t, { fraction: view.fraction, tone: view.tone, columns })
                 : null}
