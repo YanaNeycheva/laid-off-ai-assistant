@@ -8,6 +8,7 @@
 import type { On } from 'claude-code'
 
 import { dossierFs, findCurrentDossier, formatBgDate, isoToday } from '../shared/dossier'
+import type { StartApi } from '../shared/session'
 import { setStatusSegment } from '../shared/status'
 import { FOLLOWUP_DAYS, loadTracker, parseTracker, type TrackerApp, type TrackerColumn } from '../shared/tracker'
 import { COLORS, card, paneHeader, pill, type UiTable } from '../shared/ui'
@@ -128,19 +129,18 @@ function column(t: UiTable, col: ColumnView) {
   )
 }
 
-export function registerPipeline(on: On) {
-  on('session.start', { isInteractive: true }, async ($, e, next) => {
-    await $.command.register({
-      name: 'pipeline',
-      description: 'Покажи панела Кандидатури',
-    })
-    void $.ui.open({ id: PANE, title: 'Кандидатури' })
-    const view = await load($)
-    setStatusSegment($, 'pipeline', view === null ? undefined : view.summary)
-
-    return next(e)
+/** Called from register.tsx's single session.start hook. */
+export async function startPipeline($: StartApi) {
+  await $.command.register({
+    name: 'pipeline',
+    description: 'Покажи панела Кандидатури',
   })
+  void $.ui.open({ id: PANE, title: 'Кандидатури' })
+  const view = await load($)
+  setStatusSegment($, 'pipeline', view === null ? undefined : view.summary)
+}
 
+export function registerPipeline(on: On) {
   on('command.run', { command: 'pipeline' }, async $ => {
     await $.ui.open({ id: PANE, title: 'Кандидатури' })
 

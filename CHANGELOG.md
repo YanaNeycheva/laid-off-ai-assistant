@@ -27,6 +27,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - The `health-insurance` deadline now maps to the confirmed log row "Здраве — декларация обр. 7
   и срок за плащане", so it counts down like the other verified deadlines.
+## [1.15.2] - 2026-11-07
+
+### Fixed
+- **Only Срокове appeared in the desktop app.** Етап, Кандидатури, Документи and Хоризонт gated
+  their `session.start` hook on `isInteractive: true`, which is false in the desktop app and the
+  SDK, so their panes never opened and `/journey`, `/pipeline`, `/documents`, `/runway` were never
+  registered. All five now start from ONE ungated `session.start` hook in `register.tsx` that calls
+  each feature's `start<Name>($)`; the `$` type lives in `hooks/shared/session.ts`. New
+  `test/session.test.ts` starts a non-interactive session and checks all five panes and commands.
 
 ## [1.15.1] - 2026-11-07
 
