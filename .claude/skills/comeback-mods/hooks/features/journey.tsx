@@ -8,6 +8,7 @@
 import type { On } from 'claude-code'
 
 import { dossierFs, loadDossierSection, type Entry } from '../shared/dossier'
+import type { StartApi } from '../shared/session'
 import { setStatusSegment } from '../shared/status'
 import { COLORS, PULSE_SMIL, paneHeader, toneColor, type Tone, type UiTable } from '../shared/ui'
 
@@ -150,18 +151,17 @@ async function refreshStatus($: Parameters<typeof dossierFs>[0] & {
   setStatusSegment($, 'journey', view === null ? undefined : view.statusText)
 }
 
-export function registerJourney(on: On) {
-  on('session.start', { isInteractive: true }, async ($, e, next) => {
-    await $.command.register({
-      name: 'journey',
-      description: 'Покажи панела Твоят път',
-    })
-    void $.ui.open({ id: PANE, title: 'Твоят път' })
-    await refreshStatus($)
-
-    return next(e)
+/** Called from register.tsx's single session.start hook. */
+export async function startJourney($: StartApi) {
+  await $.command.register({
+    name: 'journey',
+    description: 'Покажи панела Твоят път',
   })
+  void $.ui.open({ id: PANE, title: 'Твоят път' })
+  await refreshStatus($)
+}
 
+export function registerJourney(on: On) {
   on('command.run', { command: 'journey' }, async $ => {
     await $.ui.open({ id: PANE, title: 'Твоят път' })
 
