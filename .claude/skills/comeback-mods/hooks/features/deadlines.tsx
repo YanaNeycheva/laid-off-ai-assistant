@@ -18,7 +18,7 @@ import {
   type Entry,
 } from '../shared/dossier'
 import { findFact, loadVerificationLog, type FactRow } from '../shared/legal'
-import { band, card, meter, paneHeader, pill, toneColor, type Tone } from '../shared/ui'
+import { band, card, COLORS, meter, paneHeader, pill, toneColor, type Tone } from '../shared/ui'
 
 const PANE = 'comeback-deadlines'
 const FOOTER = 'Ориентировъчно. Провери в НОИ и Агенцията по заетостта.'
@@ -204,11 +204,11 @@ export function registerDeadlines(on: On) {
       t,
       nearest.tone,
       <Box gap={1}>
-        <Text color={nearest.tone === 'neutral' ? undefined : color} weight="semibold">
+        <Text color={nearest.tone === 'neutral' ? COLORS.text : color} weight="semibold">
           {bandText(nearest)}
         </Text>
         {nearest.checked !== '' ? (
-          <Text dimColor>проверено на {formatBgDate(nearest.checked)}</Text>
+          <Text color={COLORS.muted}>проверено на {formatBgDate(nearest.checked)}</Text>
         ) : null}
       </Box>,
     )

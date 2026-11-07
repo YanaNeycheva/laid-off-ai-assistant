@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.14.1] - 2026-11-07
+
+### Fixed
+- **Deadline band unreadable in the light theme.** The band above the prompt has a fixed dark
+  fill, but its text took the theme's color, so in the light theme it was dark text on dark.
+  Both lines now set explicit light colors (`COLORS.text`, `COLORS.muted`); `band()` documents
+  the rule for any future band.
+- **Plugin version back in step with `VERSION`.** The v1.14.0 commit left the mods'
+  `plugin.json` at 1.13.0; it is now 1.14.1.
+
 ## [1.14.0] - 2026-11-07
 
 ### Changed

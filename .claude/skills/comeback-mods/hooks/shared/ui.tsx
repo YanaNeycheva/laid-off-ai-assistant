@@ -254,7 +254,12 @@ export function legend(
   )
 }
 
-/** The band above the prompt. Tint follows `tone`; `children` are Text nodes. */
+/**
+ * The band above the prompt. Tint follows `tone`; `children` are Text nodes.
+ * The fill is always dark, so every Text inside must set an explicit light
+ * `color` (COLORS.text / COLORS.muted / a tone color). Never leave it to the
+ * theme or `dimColor`: in the light theme that gives dark text on dark fill.
+ */
 export function band(t: UiTable, tone: Tone, children: RenderChildren) {
   const { Box } = t
   const backgroundColor =
