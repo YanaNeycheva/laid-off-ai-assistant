@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.2] - 2026-11-07
+
+### Fixed
+- Root `README.md`: a "Mods" section and a `mods/comeback/` line in the layout, pointing to
+  `mods/README.md`, so the five comeback mods are discoverable from the front page. Documentation only.
+
 ## [1.12.1] - 2026-11-07
 
 ### Fixed
