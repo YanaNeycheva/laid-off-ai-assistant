@@ -7,6 +7,168 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.2] - 2026-11-07
+
+### Fixed
+- Root `README.md`: a "Mods" section and a `mods/comeback/` line in the layout, pointing to
+  `mods/README.md`, so the five comeback mods are discoverable from the front page. Documentation only.
+
+## [1.12.1] - 2026-11-07
+
+### Fixed
+- `mods/README.md` feature table: the runway row now reads `shipped` and names its `Finances` dossier
+  section; the pipeline row's note is in English like the rest of the doc. Documentation only.
+
+## [1.12.0] - 2026-11-07
+
+### Added
+- **Финансов хоризонт (runway) mod** - a side pane "Хоризонт" (note "ориентировъчно") with a rough "~7 месеца" headline, a stacked bar by source (Обезщетение при съкращение, Обезщетение от НОИ, Спестявания), a legend with months per source and a card "Разходи: ... /мес. (по твоите данни)". The mod only adds and divides the numbers in the dossier; it never derives the НОИ benefit. The НОИ amount counts only when `noi-confirmed` is `да`; otherwise it is left out of the headline and the bar and shown as "за потвърждение в НОИ". With no monthly expenses, or no counted source, the pane says what is missing instead of showing a zero. Status-line segment `~7 месеца хоризонт`. `/runway` reopens the pane.
+- `mods/comeback/hooks/shared/ui.tsx`: `stackedMeter`, `legend` and the `violet` tone.
+- `mods/comeback/hooks/shared/dossier.ts`: `parseAmount`.
+- `agent/dossier-template.md`: a machine-read `Finances` section; `agent/orchestrator.md` keeps it current.
+
+## [1.11.0] - 2026-11-07
+
+### Added
+- **Документи (documents) mod** - a side pane "Документи" with three groups: Базово CV (versions newest first, the newest marked "текущо", older ones dim), Пригодени (one row per `YYYY-MM-DD_Company_Position` folder, "Company · Position") and Подготовка (a "Пробно интервю — обратна връзка" row when the dossier `## Interviews` section is filled, and "<company> — въпроси за задаване" for each filled `### ...` block under `## Company intel`). Each row has a `DD.MM` date; file rows show their path. Status-line segment `6 документа`. `/documents` reopens the pane. Read-only; needs no new dossier section.
+- `mods/comeback/hooks/shared/documents.ts`: shared, read-only artifact discovery (workspace from the dossier `Workspace път`, base-CV and position-folder scan, prep detection from dossier sections).
+- `mods/comeback/hooks/shared/ui.tsx`: `groupLabel` and `iconRow` helpers.
+
+## [1.10.0] - 2026-11-07
+
+### Added
+- **Кандидатури (pipeline) mod** - a side pane "Кандидатури" showing the applications as four columns (Кандидатствах, Разговор, Оферта, Отказ) with counts. An `applied` card whose "Follow-up на" date has passed (or, without one, that was sent 10 or more days ago) gets an amber border and "време за follow-up"; a `talking` card shows the next meeting (`роля · интервю 14.11`); an empty Оферта column shows a steadying line. Status-line segment `7 кандидатури · 2 разговора`. `/pipeline` reopens the pane.
+- `mods/comeback/hooks/shared/status.ts`: a status-line coordinator. `$.ui.status` is one slot per plugin, so each feature now sets its own segment and the segments are composed in a fixed order.
+- `mods/comeback/hooks/shared/tracker.ts`: tolerant, read-only parser for the person's own `tracker.md` (zones by heading, `DD.MM` dates resolved to the year nearest today). The mod reads the tracker directly; there is no second copy in the dossier.
+
+### Changed
+- The journey mod writes its status through the shared coordinator (no visible change).
+- The per-turn pane redraw (prompt.submit / turn.complete → ui.invalidate) is now registered once in register.tsx instead of inside the deadlines mod; no behaviour change.
+
+## [1.9.0] - 2026-11-07
+
+### Added
+- **Етап (journey) mod** - a side pane "Твоят път" with a calm vertical stepper over the four stages of the guide (Опора, CV, Търсене, Интервюта): earlier stages show a check mark, the current one is highlighted with a gentle pulse and "Следва: <next step>", later ones are dimmed. A status-line entry reads `етап 3/4 · търсене`. No points, streaks or percentages. `/journey` reopens the pane.
+- `agent/dossier-template.md`: new machine-read **Journey** section (`stage`, `next`); `agent/orchestrator.md`: one line telling the orchestrator to keep it current.
+
+## [1.8.0] - 2026-11-07
+
+### Added
+- **`mods/comeback` Claude Code plugin** - one plugin for all comeback mods, so the dossier reader is written once. Shared code in `hooks/shared/`: `dossier.ts` (finds the most recently modified `Personal/*/dossier.md`, parses sections and `key: value` entries; read-only), `legal.ts` (reads the `Дневник на проверките` in `bg-legal.md`) and `ui.tsx` (card, pill, meter, pane header, band). `mods/README.md` documents the layout, the shared-code rule and how to add a feature.
+- **Срокове (deadlines) mod** - a band above the prompt with the nearest verified deadline in days (neutral, amber at 7 days or fewer, red at 2 or fewer) and a side pane listing every deadline with due date, documents and a time-left meter. A deadline whose fact is not `✅ потвърдено` in the verification log is shown as `за проверка` with the official link, never as a countdown.
+- `agent/dossier-template.md`: new machine-read **Deadlines** section (ISO dates, a `fact` key); `agent/orchestrator.md`: one line telling the orchestrator to keep it filled.
+- `tests/test_mods.py` (plugin matches `VERSION`, the template and the verification log; stays read-only; no motion-preference branching) and plugin tests in `mods/comeback/test/` (run with `claude plugin test mods/comeback`).
+
+## [1.7.1] - 2026-10-02
+
+### Changed
+- README: added a plain-language **CV Only** section explaining how CV building works (make/fix a base
+  CV with no job ad → tailor it to a posting), why ATS-friendly formatting matters, and what you get
+  (`.docx` + `.pdf`, BG/EN, versioned, private). Added a matching "make/fix my CV" row to the
+  "What you can ask for" table. No behavior change — documentation only.
+
+## [1.7.0] - 2026-10-02
+
+### Added
+- **`/build-cv` skill** (`.claude/skills/build-cv/`) — creates the canonical base CV from scratch or
+  ATS-cleans an existing one, **with no job posting required**. Splits CV work cleanly: `build-cv`
+  owns the base CV (output in the workspace root); `/tailor-cv` tailors a clean base to a specific
+  posting (output in a dated position folder). It reuses `tailor-cv`'s `ats-rules.md` and
+  `proofing.md` as the single source of truth — no duplicated ruleset. Initial data flows from the
+  dossier (the existing `/comeback` intake), with a cold-start bootstrap for direct invocation.
+- `tests/test_invariants.py::TestBuildCvSkillWired` — guards that the skill exists, reuses the shared
+  ATS rules, and stays wired into both the orchestrator routing and the `cv-builder` subagent.
+
+### Changed
+- `cv-builder` now selects between `/build-cv` (no posting) and `/tailor-cv` (posting) by the task in
+  its brief; the orchestrator's routing table and CV-brief logic distinguish the two cases.
+- `tools/gen_agents.py` neutralizes `/build-cv` skill references for the generated non-Claude trees,
+  symmetric with the existing `/tailor-cv` handling; trees regenerated.
+- README and CLAUDE.md describe the two-skill CV engine.
+
+## [1.6.1] - 2026-09-15
+
+### Added
+- `tests/test_generated_trees.py` — fails the test gate when the generated tool trees
+  (`.opencode/`, `.codex/`, `.github/agents/`) drift from the `.claude/` source, pointing you to
+  `python tools/gen_agents.py`. Closes the gap where editing `.claude/` without regenerating left
+  the other tools silently running stale behavior — the single-source-of-truth guarantee is now
+  enforced by the pre-push gate, not just documented.
+
+## [1.6.0] - 2026-09-15
+
+### Added
+- **Experimental Codex and Copilot support (generated, not yet tested).** `tools/gen_agents.py` now
+  emits three tool trees from the `.claude/agents/` source of truth:
+  - OpenCode — `.opencode/agents/*.md` (validated end-to-end).
+  - **Codex** — `.codex/agents/*.toml` (TOML; body → `developer_instructions`,
+    `sandbox_mode = "workspace-write"`).
+  - **Copilot** — `.github/agents/*.agent.md` (YAML frontmatter; `read`/`edit`/`execute` tool
+    allowlist).
+  - Codex and Copilot are **generated + structurally linted only** — those tools aren't installed
+    here, so they are **not behaviorally tested**. Each generated file carries an in-file `UNTESTED`
+    note; the per-tool entry point and web-search wiring still need a real run to confirm.
+- `tools/lint_agents.py` — multi-tool structural lint (OpenCode YAML, Codex TOML via `tomllib`,
+  Copilot frontmatter). Runs offline.
+- `tiers.json` — `codex` and `copilot` sections (models left unset → inherit the tool default;
+  Copilot CLI ignores the agent `model:` field).
+
+### Changed
+- README notes Codex/Copilot as experimental/untested alongside the validated OpenCode + Claude paths.
+
+### Removed
+- `tools/lint_opencode_spike.py` — superseded by the multi-tool `tools/lint_agents.py`.
+
+## [1.5.0] - 2026-09-15
+
+### Added
+- **Runs on OpenCode (free), in addition to Claude Code.** The full assistant now runs in
+  [OpenCode](https://opencode.ai) — a free tool with free built-in models (OpenCode Zen), so a
+  person can run the whole benefits → CV → search → interview flow at no cost, no paid AI plan.
+  - `.opencode/agents/` — all 6 subagents **generated** from `.claude/agents/`, plus a hand-authored
+    `comeback` primary/entry that routes to them.
+  - `tools/gen_agents.py` — the generator. **`.claude/` is the hand-authored source of truth; every
+    other tool's tree is generated from it** (the primary contributor develops in Claude Code). It
+    maps the Claude `tools:` list → OpenCode `permission:` map, neutralizes tool-name prose
+    (`WebSearch`→"web search", `Bash`→"in a shell", the `/tailor-cv` skill call → "read & follow the
+    skill file"), and emits `model:` from `tiers.json`. Idempotent; `--check` flags staleness.
+  - `tiers.json` — per-tool tier→model map (single source). OpenCode is assigned its free OpenCode
+    Zen models (`strong` = nemotron-3-ultra-free, `mid` = big-pickle, `cheap` =
+    nemotron-3.5-lightning-free).
+  - `tools/lint_opencode_spike.py` (offline structural lint) and `tools/check_benefits_slice.py`
+    (scoped behavioral assertion for a run folder).
+  - **Validated end-to-end:** the benefits safety slice ran in OpenCode Desktop against the Martin
+    persona — real subagent spawning, `python -m lib.benefits` for deterministic dates/amounts, the
+    web-verified producer≠checker freshness gate, and a correct dossier `Legal / benefits` section.
+- **README:** a "pick how you'll run it" section covering OpenCode (free) and Claude Code.
+
+### Changed
+- The `.claude/` bodies and `README` note the harness-independent path (scripts / OpenCode) alongside
+  the in-Claude equivalents. `.claude/` remains byte-identical in behavior — it is the authored source.
+
+## [1.4.0] - 2026-09-15
+
+### Added
+- **Harness-independent output scripts (`scripts/`).** The CV/tracker file pipeline can now run
+  without the Claude Code bundled `docx` / `pdf` / `xlsx` skills — the first step toward running
+  the assistant on other agent tools:
+  - `render_cv_docx.py` — CV JSON → ATS-clean `.docx` (`python-docx`), enforcing the
+    `tailor-cv/ats-rules.md` structure deterministically. JSON contract in `scripts/README.md`.
+  - `docx_to_pdf.py` — `.docx` → `.pdf` via LibreOffice headless (auto-locates `soffice`, verifies
+    the PDF was written, degrades cleanly when LibreOffice is absent).
+  - `tracker_to_xlsx.py` — `tracker.md` → `.xlsx` snapshot (`openpyxl`).
+  - `requirements.txt` (python-docx, openpyxl) and `tests/test_scripts.py` (dependency-guarded with
+    `skipUnless`, so the stdlib-only pre-push gate stays green on a clean clone).
+- **Tool-porting groundwork.** `PORTING-PLAN.md` (generic, reusable method) + `PORTING-PLAN.layoff.md`
+  (this project's companion: six-seam coupling inventory, tier→model map, Layer-4 fixture mapping,
+  invariants, and a runnable Definition of Done).
+
+### Changed
+- CV/tracker pipeline bodies now point at `scripts/` as the portable primary path, with the bundled
+  Claude Code skills noted as the in-harness equivalent: `.claude/agents/cv-builder.md`,
+  `.claude/skills/tailor-cv/SKILL.md`, `agent/orchestrator.md`, `agent/templates/tracker.md`,
+  `CONTRIBUTING.md`.
+
 ## [1.3.3] - 2026-09-11
 
 ### Changed

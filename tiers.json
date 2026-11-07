@@ -1,0 +1,21 @@
+{
+  "//": "Tier -> model map per tool (Seam 5). The generator (tools/gen_agents.py) emits each agent's `model:` from here based on its tier, so model IDs live in ONE place, never baked into agent files. To change models: pick from the tool's available list and update the 3 lines, then rerun `python tools/gen_agents.py`. See PORTING-PLAN.layoff.md §6.1.",
+  "opencode": {
+    "//": "OpenCode Zen FREE models (no provider auth needed) — read live from the app's model selector on 2026-09-15; IDs per opencode.ai/docs/zen. `mid` = big-pickle, proven end-to-end in the live benefits-slice run. When you auth a real provider (OpenAI/Anthropic/Google/Copilot) in OpenCode, replace these with its provider/model-id and regenerate.",
+    "strong": "opencode/nemotron-3-ultra-free",
+    "mid": "opencode/big-pickle",
+    "cheap": "opencode/nemotron-3.5-lightning-free"
+  },
+  "codex": {
+    "//": "Codex is NOT installed/authed on this machine — UNTESTED. model unset -> Codex subagents inherit the parent model. After authing Codex, set e.g. `gpt-5.x` per tier and regenerate.",
+    "strong": null,
+    "mid": null,
+    "cheap": null
+  },
+  "copilot": {
+    "//": "Copilot CLI IGNORES the agent `model:` field (it uses ~/.copilot/settings.json). Left null; the generator omits model for Copilot regardless. UNTESTED — Copilot not installed here.",
+    "strong": null,
+    "mid": null,
+    "cheap": null
+  }
+}

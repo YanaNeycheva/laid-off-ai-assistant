@@ -28,14 +28,14 @@ One **orchestrator** (`agent/orchestrator.md`) holds the relationship — triage
 Load-bearing rule: **the orchestrator is the relationship; subagents are tools.** Subagents start cold, so triage + support are never delegated.
 
 - Orchestrator-owned (never delegated): `agent/triage.md`, `agent/support.md`.
-- Subagents (`.claude/agents/`): `cv-builder` (drives the `/tailor-cv` skill), `interview-coach`, `search-strategist`, `bg-navigator`, `company-intel` (optional).
+- Subagents (`.claude/agents/`): `cv-builder` (drives the `/build-cv` and `/tailor-cv` skills), `interview-coach`, `search-strategist`, `bg-navigator`, `company-intel` (optional).
 - **Freshness gate:** `freshness-checker` is an independent verifier the orchestrator spawns **on** another subagent's output (chiefly `bg-navigator`) — producer ≠ checker. It confirms every НАП/НОИ/Бюро claim against the official source, returns a per-claim verdict, and stamps last-verified dates into the **Дневник на проверките** table in `bg-legal.md`. It never talks to the person.
 
 **Shared state:** a per-person `dossier.md` (schema in `agent/dossier-template.md`). Orchestrator and every subagent read/write it — this is how cold subagents get the person's full context. It lives at `Personal/<date>-<slug>/dossier.md`, **not** in this repo.
 
 **Person data is never committed:** all files generated for the person — dossier, CVs, tracker, `.docx`/`.pdf` output — live only under `Personal/` (git-ignored) in a dated per-person subfolder `Personal/<date>-<slug>/`. These are NEVER committed.
 
-**CV engine:** the `cv-builder` subagent runs the vendored `/tailor-cv` skill (`.claude/skills/tailor-cv/`), which owns the ATS audit, JD capture, one-question-at-a-time gap analysis, and `.docx`/`.pdf` output. Its rules are skill-local in `ats-rules.md`.
+**CV engine:** the `cv-builder` subagent runs two vendored skills — `/build-cv` (`.claude/skills/build-cv/`) creates the canonical base CV from scratch or ATS-cleans an existing one (no posting, output in the workspace root); `/tailor-cv` (`.claude/skills/tailor-cv/`) tailors a clean base to a specific posting (JD capture, one-question-at-a-time gap analysis, output in a dated position folder). Both produce `.docx`/`.pdf` and share a single source of truth for rules/versioning (`tailor-cv/ats-rules.md`) and proofing (`tailor-cv/proofing.md`).
 
 ## Knowledge base
 

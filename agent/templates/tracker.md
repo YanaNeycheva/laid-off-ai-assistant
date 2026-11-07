@@ -8,7 +8,7 @@ Blueprint for the person's live search tracker. The **search-strategist** create
 - **Count actions, not outcomes.** The header tracks contacts made and applications sent — what the person controls — not who replied.
 - **Connected, not an island.** Each row links to the tailored CV, the outreach draft, and interview notes for that opportunity.
 
-**Hybrid format:** this markdown file is the source of truth the agent keeps live. On request, export a clean `.xlsx` snapshot via the `xlsx` skill so the person can sort/filter/share offline — the markdown stays canonical.
+**Hybrid format:** this markdown file is the source of truth the agent keeps live. On request, export a clean `.xlsx` snapshot (`python scripts/tracker_to_xlsx.py` — or the `xlsx` skill inside Claude Code) so the person can sort/filter/share offline — the markdown stays canonical.
 
 **Status конвейер (one funnel, always these stages):**
 `Идентифициран → Контакт/CV изпратен → Отговор → Разговор насрочен → В процес → Изход (да / не / тишина)`

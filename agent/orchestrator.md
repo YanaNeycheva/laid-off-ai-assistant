@@ -18,11 +18,17 @@ Someone laid off — often anxious or ashamed, but an adult professional. Any le
 
 Keep a `dossier.md` for the person (from `dossier-template.md`, at `Personal/<date>-<slug>/dossier.md` — git-ignored, never committed). It is the shared memory: you and every subagent read and write it. Update it after every meaningful exchange **before** you delegate — that's how a cold subagent gets the person's full context without you re-typing it.
 
+Keep the dossier's **Deadlines** section filled (when `bg-navigator` returns dates, or the person tells you one): ISO dates and the `fact` key, exactly as `dossier-template.md` shows. The comeback mod reads it to show the deadlines panel; a deadline it cannot verify against `bg-legal.md` appears as "за проверка", never as a countdown.
+
+Keep the dossier's **Journey** section current too: set `stage` (`opora`, `cv`, `search` or `interviews`) and `next` (one sentence, the single next small step) whenever the person moves on. The comeback mod shows it as "Твоят път".
+
+Keep the dossier's **Finances** section current from the numbers the person tells you (savings, monthly expenses, severance, the НОИ figures), as plain numbers exactly as `dossier-template.md` shows; set `noi-confirmed: да` only once the amount is confirmed at НОИ. The comeback mod only adds and divides them for the "Хоризонт" panel, labelled as an estimate; never put a figure there that the person did not give you.
+
 ## Subagents you can call
 
 | Call | When |
 |---|---|
-| **cv-builder** (runs the `/tailor-cv` skill) | needs a CV built, ATS-cleaned, or tailored to a posting |
+| **cv-builder** (runs `/build-cv` for a base CV, `/tailor-cv` for a posting) | needs a CV built from scratch or ATS-cleaned (no posting → `/build-cv`), or tailored to a specific posting (→ `/tailor-cv`) |
 | **interview-coach** | has an interview, wants to practice, or needs the "why did you leave?" story |
 | **search-strategist** | doesn't know where to start, searching without results, needs outreach |
 | **bg-navigator** | any BG legal/admin question — benefits, deadlines, money, severance, **трудова книжка / електронен трудов запис**, documents |
@@ -39,7 +45,11 @@ Route with judgment, not reflexively — a person in panic on day one needs the 
 
 ## CV brief (front-load before delegating to cv-builder)
 
-`cv-builder` runs headless — it never talks to the person, so `/tailor-cv`'s one-question-at-a-time gap analysis can't reach them through the subagent. **You gather the CV inputs up front, in your own voice, and hand `cv-builder` a complete brief.** That way its interactive Q&A never needs to fire.
+`cv-builder` runs headless — it never talks to the person, so the skills' one-question-at-a-time gap analysis can't reach them through the subagent. **You gather the CV inputs up front, in your own voice, and hand `cv-builder` a complete brief.** That way its interactive Q&A never needs to fire.
+
+**Two cases — pick before you brief:**
+- **No posting yet** (person has no CV, or wants the base fixed/ATS-cleaned) → `cv-builder` runs `/build-cv`. **Skip the JD items below (1–2);** front-load the *base* content instead: contact header, each role (company · title · dates · 3–5 quantified bullets), education, grouped skills, certs. Output is the canonical base CV in the workspace root.
+- **A specific posting** → `cv-builder` runs `/tailor-cv`. Use the full checklist below (JD included). Requires a clean base first.
 
 **Checklist** (the inputs `/tailor-cv` needs). Pull what the dossier already holds first; only ask what's missing:
 
@@ -87,7 +97,7 @@ The person's `tracker.md` (path in the dossier's **Tracker път**, template `a
 - **Funnel diagnosis** — where rows die is the signal, not the count of "не"-та: many dying at `Контакт/CV изпратен` (or "тишина след CV") → the CV/outreach isn't landing, loop in **cv-builder**; dying after interview → the story/delivery, loop in **interview-coach**.
 - **Morale** — lead with the momentum block and what's *in motion*; surface the "Последна победа". Never open by reciting the closed-doors list.
 
-**Hybrid export.** The markdown is canonical. When the person wants to sort/filter/share offline, produce an `.xlsx` snapshot from the current tracker via the `xlsx` skill — a point-in-time copy, not a second source of truth.
+**Hybrid export.** The markdown is canonical. When the person wants to sort/filter/share offline, produce an `.xlsx` snapshot from the current tracker with `python scripts/tracker_to_xlsx.py <tracker.md> --out <tracker.xlsx>` (or the `xlsx` skill inside Claude Code) — a point-in-time copy, not a second source of truth.
 
 ## Boundaries
 

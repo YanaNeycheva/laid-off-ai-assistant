@@ -4,7 +4,7 @@ An interactive assistant that supports a laid-off professional through the **who
 
 - **Language (what you see):** Bulgarian
 - **Who it's for:** any laid-off professional — junior to senior, any industry
-- **Where it runs:** [Claude Code](https://claude.com/claude-code) (desktop app, CLI, or IDE) — it's an agent you talk to, not a website
+- **Where it runs:** [Claude Code](https://claude.com/claude-code), **or [OpenCode](https://opencode.ai) for free** (free tool + free built-in models — no paid AI plan needed) — it's an agent you talk to, not a website
 - **Sibling project:** the [uncoachable.work](https://uncoachable.work) blog; the guide that grounds this agent is also published there
 
 ## Why this exists
@@ -28,16 +28,26 @@ It's not a CV tool with extras. It covers six things, and it decides which one y
 
 ## How to use it
 
-### Before you start
-1. Open this project in **Claude Code** and make **this folder** the working directory — that's what puts the subagents and the CV skill in scope. (On a plain Claude.ai project without them, only the conversation works — no file output.)
-2. *Optional:* install **LibreOffice** if you want CV **PDFs** rendered locally with correct Cyrillic. Without it you still get the `.docx`.
+### Before you start — pick how you'll run it
+The assistant is the same either way; the only difference is the tool you talk to it in.
 
-### Start a session
-Type **`/comeback`** — or just say what happened, in Bulgarian or English:
+**Option A — OpenCode (free, no paid plan).** [OpenCode](https://opencode.ai) is free and ships with free built-in models (OpenCode Zen), so you can run the **whole** assistant at no cost — no Claude subscription, no API key.
+1. Install OpenCode and open **this project folder** in it.
+2. Start a new session and pick the **Comeback** agent (the agent selector, bottom-left).
+3. Say what happened — it opens with triage and takes it from there. The default free model works out of the box; the full benefits → CV → search → interview flow runs on it.
+
+**Option B — Claude Code.** The tool this project is authored in.
+1. Open this project in **Claude Code** with **this folder** as the working directory — that's what puts the subagents and the CV skill in scope. (On a plain Claude.ai project without them, only the conversation works — no file output.)
+2. Type **`/comeback`**, or just say what happened.
+
+*Optional (either tool):* install **LibreOffice** if you want CV **PDFs** rendered locally with correct Cyrillic. Without it you still get the `.docx`.
+
+### Just talk to it
+Whichever tool you picked, say what happened — in Bulgarian or English:
 
 > „Съкратиха ме." · „Останах без работа." · „laid off"
 
-It opens with a short, human check-in — what happened and where you are — and then routes to whatever you need. **You don't pick a mode or memorize commands; you just talk to it.**
+It opens with a short, human check-in — what happened and where you are — and then routes to whatever you need. **You don't pick a mode or memorize commands; you just talk to it.** (In Claude Code you can also type `/comeback`; in OpenCode you pick the **Comeback** agent first, then talk.)
 
 ### What you can ask for
 You steer it in plain language. A few examples of what to say and what happens:
@@ -46,13 +56,12 @@ You steer it in plain language. A few examples of what to say and what happens:
 |---|---|
 | „Съкратиха ме вчера, откъде да започна?" | Steadies you, then lays out the first days — with your benefit deadlines if the clock is ticking |
 | „Полагат ли ми се пари и до кога да се регистрирам?" | Works out eligibility, your **exact** Бюро/НОИ deadlines and a benefit estimate — verified against official sources |
-| „Помогни ми да стегна CV-то за тази обява" *(paste the job ad)* | Produces a tailored, ATS-clean CV as `.docx` + `.pdf` |
+| „Нямам CV, помогни ми да си направя" / „Оправи ми автобиографията" | Builds your CV from scratch (or cleans up the one you have) into an ATS-friendly `.docx` + `.pdf` — no job ad needed |
+| „Помогни ми да стегна CV-то за тази обява" *(paste the job ad)* | Takes your CV and tailors it to that specific posting, ATS-clean, as `.docx` + `.pdf` |
 | „Имам интервю в петък, дай да порепетираме" | Runs a mock interview with feedback and helps you tell the layoff story |
 | „Не знам как да си търся работа" | Builds a networking-first plan, a tracker, and outreach drafts |
 | „Разкажи ми за тази компания преди интервюто" *(paste the posting)* | Fit read, „защо точно тук" angles, and questions to ask |
 | *(feeling low / overwhelmed)* | The steadying layer is always on — you don't have to ask |
-
-**CV only?** If all you want is a tailored CV, you can invoke **`/tailor-cv`** directly.
 
 ### What you get, and where
 Everything produced **for you** lives in a private, **git-ignored** `Personal/<date>-you/` folder — so nothing about your situation is ever committed to the repo:
@@ -61,19 +70,53 @@ Everything produced **for you** lives in a private, **git-ignored** `Personal/<d
 - a job-search **tracker**
 - **interview** notes
 
+## CV Only
+
+Maybe you're steady and you just want a solid CV — you don't need the whole assistant for that. There are two things it does, and they build on each other:
+
+**1. Make or fix your CV — no job ad needed.** Tell it *„Нямам CV, помогни ми да си направя"* or *„Оправи ми автобиографията"*. It asks you a few questions — **one at a time**, never a long form — about your experience, education and skills, and turns your answers into a clean, general-purpose CV. It **never invents** anything: if you don't have a number or a detail, it leaves a gap and asks you, rather than making something up. The result is your **base CV** — a strong, honest version you can send anywhere.
+
+**2. Tailor it to a specific job.** Once you have a clean base CV, paste a job ad and say *„Помогни ми да стегна CV-то за тази обява"*. It takes your base CV and reshapes it for that one posting — leading with the experience and keywords that job asks for — without changing any facts.
+
+**Why "ATS-friendly" matters.** Most employers run your CV through software (an *Applicant Tracking System*) before a human ever sees it. If the layout confuses the software — tables, columns, images, logos, unusual headings — your CV can be mis-read or dropped. So everything it produces is deliberately plain and scanner-safe: a single column, standard section headings, clear dates, no graphics. It still reads well for a human — it just won't trip the robots first.
+
+**What you get.** Each CV comes as a **`.docx`** (the version the software reads best) and a **`.pdf`** (for people to read), in **Bulgarian or English** — it follows the language of the job. Every version is kept, so you never lose an earlier one, and it all lives in your private `Personal/` folder — nothing is ever uploaded or committed.
+
+**How to start.** Easiest is to just talk to it. If you're comfortable with commands, in Claude Code or OpenCode you can jump straight in: **`/build-cv`** to make or fix your base CV, **`/tailor-cv`** to tailor it to a posting.
+
 ## How it works
 
 One **orchestrator** is the single voice you talk to. It holds the relationship — the check-in, the steadying layer, and one consistent tone — and never hands that off. For concrete work it quietly delegates to specialized **subagents** (CV, interview, search, benefits, company research), each of which reads and writes your shared **dossier**. A separate **freshness-checker** independently verifies every benefits/legal claim before it reaches you. You never see the machinery — just one assistant.
 
 ```
 agent/            orchestrator (the voice), triage, always-on support, dossier schema
-.claude/agents/   the subagents: cv-builder, interview-coach, search-strategist,
+.claude/agents/   the subagents (authored here): cv-builder, interview-coach, search-strategist,
                   bg-navigator, company-intel, and the freshness-checker verifier
-.claude/skills/   /comeback (the front door) and /tailor-cv (the CV engine)
+.claude/skills/   /comeback (the front door), /build-cv (base CV) and /tailor-cv (tailor to a posting)
+.opencode/agents/ the same agents, generated for OpenCode from .claude/ (tools/gen_agents.py)
 knowledge-base/   the Bulgarian guide + BG legal/benefits facts + sources
+scripts/          harness-independent CV .docx/.pdf + tracker .xlsx output
+mods/comeback/    optional Claude Code side panes over the dossier (see Mods below)
 ```
 
+The assistant is **authored once in `.claude/`**; the other tools' trees are *generated* from it with `python tools/gen_agents.py`, so they run the same agent. Contributors edit `.claude/` and regenerate — they never hand-edit the generated trees. Per-tool model choices live in [tiers.json](tiers.json).
+
+- **OpenCode** (`.opencode/agents/`) — generated and **validated** end-to-end (free to run).
+- **Codex** (`.codex/agents/`) and **Copilot** (`.github/agents/`) — generated and structurally linted, but **not yet behaviorally tested** (those tools aren't set up here). Treat them as experimental; the agent bodies are the same, but each tool's entry point and web-search wiring still need a real run to confirm.
+
 Full architecture and conventions are in [CLAUDE.md](CLAUDE.md).
+
+## Mods (Claude Code side panes)
+
+Optional Claude Code **mods** show the person's own situation beside the chat, read from their local dossier: **Срокове** (deadlines countdown, only for verified facts), **Етап** (where they are in the four stages), **Кандидатури** (application pipeline from `tracker.md`), **Документи** (CV versions and prep notes) and **Финансов хоризонт** (rough runway in months). All five are one plugin in [mods/comeback/](mods/comeback/); they only read, never write.
+
+To try them, start Claude Code **from the repo root** (so `Personal/` resolves) with the plugin loaded. This needs Claude Code 2.1.317 or newer; check with `claude --version`.
+
+```
+claude --plugin-dir mods/comeback
+```
+
+How it is built, how to add a feature and how to test it are in [mods/README.md](mods/README.md).
 
 ## Status
 

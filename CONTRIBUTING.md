@@ -43,10 +43,13 @@ By contributing you agree that code contributions are licensed under [MIT](LICEN
 
 ## Optional tooling
 
-**LibreOffice** (optional, but recommended) is the primary path for exporting tailored CVs to PDF. The `/tailor-cv` skill renders the `.docx` and then converts it to PDF with LibreOffice in headless mode:
+The file-output pipeline (CV `.docx`/`.pdf`, tracker `.xlsx`) runs **without** the Claude Code harness via the harness-independent scripts in [`scripts/`](scripts/) — that is what lets the project run on other tools. Install their Python deps once with `pip install -r requirements.txt` (`python-docx` + `openpyxl`); see [scripts/README.md](scripts/README.md) for the CV JSON contract. The core assistant (`lib/benefits.py`, the tests) needs none of these — it is stdlib-only.
+
+**LibreOffice** (optional, but recommended) is the primary path for exporting tailored CVs to PDF. `scripts/docx_to_pdf.py` renders the PDF from the `.docx` with LibreOffice in headless mode (equivalent to running it by hand):
 
 ```bash
-soffice --headless --convert-to pdf --outdir <folder> <folder>/<file>.docx
+python scripts/docx_to_pdf.py <folder>/<file>.docx
+# under the hood: soffice --headless --convert-to pdf --outdir <folder> <folder>/<file>.docx
 ```
 
 We use LibreOffice because it renders **Cyrillic (Bulgarian) reliably** — verified end-to-end (docx → PDF → extracted text round-trips Cyrillic, en-dashes, and `€`).
@@ -56,7 +59,7 @@ We use LibreOffice because it renders **Cyrillic (Bulgarian) reliably** — veri
 
 If LibreOffice isn't installed, the flow degrades cleanly: the `.docx` is delivered as the primary artifact and the PDF is left for the person to export themselves (Word / Google Docs → Save as PDF also preserves Cyrillic). Never ship a PDF with broken Cyrillic instead.
 
-**python-docx** (or the harness `docx` skill) is the CV pipeline's `.docx` writer — the `/tailor-cv` render step builds the `.docx` with it before the LibreOffice PDF step above. When the `docx` skill is in context the pipeline uses it; otherwise it falls back to the `python-docx` package. If neither is available, `.docx` rendering can't proceed, so install `python-docx` (`pip install python-docx`) when running the CV pipeline outside the harness.
+**python-docx** is the CV pipeline's `.docx` writer — `scripts/render_cv_docx.py` builds the `.docx` from a `cv.json` before the LibreOffice PDF step above. Inside Claude Code the bundled `docx` skill renders the same content just as well. Install `python-docx` (via `requirements.txt`, or `pip install python-docx`) when running the CV pipeline outside the harness. **openpyxl** backs `scripts/tracker_to_xlsx.py` (the tracker `.xlsx` snapshot); inside Claude Code the bundled `xlsx` skill is the equivalent.
 
 ## Never commit person data
 

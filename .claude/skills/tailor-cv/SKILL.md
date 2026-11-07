@@ -69,18 +69,22 @@ Compose the tailored CV **content** (rendering happens in Step 5, after proofing
 ## Step 5 — Proofread, then render
 
 1. **Run the proofing pass** ([proofing.md](proofing.md)) on the composed text: dashes → en-dashes (without breaking legitimate hyphens), and a grammar/spelling check in the CV's language (BG or EN). Apply confident fixes; note anything ambiguous you left.
-2. **Render** the `.docx` with the docx skill, inside the position folder:
+2. **Render** the `.docx`, inside the position folder, as:
    ```
    {UserNames} CV - {Company} - {Position Title}.docx
    {UserNames} CV - {Company} - {Position Title}.pdf
    ```
-   Both live **inside the position folder**, never in the workspace root (root holds only the canonical base CV).
-3. **Export the PDF from the rendered `.docx`.** Primary path is **LibreOffice headless** — it renders Cyrillic (BG) reliably (verified: docx → PDF → extracted text round-trips Cyrillic, en-dashes, and `€`). On Windows call `soffice` by its full path (it is not on `PATH`):
+   Both live **inside the position folder**, never in the workspace root (root holds only the canonical base CV). **Portable path (any tool):** write the composed content as a `cv.json` (contract in [scripts/README.md](../../../scripts/README.md)) and render deterministically:
    ```bash
-   "/c/Program Files/LibreOffice/program/soffice.exe" --headless --convert-to pdf \
-     --outdir "<position folder>" "<position folder>/{UserNames} CV - {Company} - {Position Title}.docx"
+   python scripts/render_cv_docx.py "<position folder>/cv.json" \
+     --out "<position folder>/{UserNames} CV - {Company} - {Position Title}.docx"
    ```
-   On macOS/Linux use the `soffice` (or `libreoffice`) on `PATH`. LibreOffice emits a harmless `Could not find platform independent libraries` warning and still exits 0 — confirm the `.pdf` exists rather than trusting the log. See [CONTRIBUTING.md](../../../CONTRIBUTING.md#optional-tooling) for the dependency.
+   Inside Claude Code the bundled `docx` skill renders the same content just as well — either is fine.
+3. **Export the PDF from the rendered `.docx`.** Primary path is **LibreOffice headless** — it renders Cyrillic (BG) reliably (verified: docx → PDF → extracted text round-trips Cyrillic, en-dashes, and `€`):
+   ```bash
+   python scripts/docx_to_pdf.py "<position folder>/{UserNames} CV - {Company} - {Position Title}.docx"
+   ```
+   The script auto-locates `soffice` (including the Windows full path, where it is not on `PATH`), and verifies the `.pdf` was actually written rather than trusting LibreOffice's harmless `Could not find platform independent libraries` warning. See [CONTRIBUTING.md](../../../CONTRIBUTING.md#optional-tooling) for the dependency.
    **Fallback when LibreOffice isn't installed:** deliver the `.docx` as the primary artifact and note in the Step 7 summary that the `.pdf` couldn't be rendered locally — the person can export it themselves (Word/Google Docs → Save as PDF, which also preserves Cyrillic). Never ship a PDF with mojibake instead of Cyrillic.
 
 ## Step 6 — Log it

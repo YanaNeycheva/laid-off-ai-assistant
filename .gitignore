@@ -24,3 +24,6 @@ __pycache__/
 
 # Local working notes (not shared)
 /TODO.md
+
+# Porting/planning docs — working artifacts, never committed (kept on disk only)
+/PORTING-PLAN*.md

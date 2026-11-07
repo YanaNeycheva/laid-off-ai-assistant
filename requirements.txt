@@ -1,0 +1,12 @@
+# Optional dependencies for the harness-independent output scripts (scripts/).
+# The core assistant (agent playbooks, knowledge base, lib/benefits.py, tests)
+# needs NONE of these — lib/benefits.py and the test suite are stdlib-only.
+# Install these only when you run the CV / tracker output pipeline outside the
+# Claude Code harness (i.e. without the bundled docx / xlsx skills).
+#
+#   pip install -r requirements.txt
+#
+python-docx>=1.1.0   # scripts/render_cv_docx.py — CV JSON -> ATS-clean .docx
+openpyxl>=3.1.0      # scripts/tracker_to_xlsx.py — tracker.md -> .xlsx snapshot
+# PDF export additionally needs LibreOffice installed (not a pip package) —
+# see scripts/docx_to_pdf.py and CONTRIBUTING.md "Optional tooling".
