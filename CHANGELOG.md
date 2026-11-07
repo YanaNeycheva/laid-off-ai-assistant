@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.0] - 2026-11-07
+
+### Added
+- **Финансов хоризонт (runway) mod** - a side pane "Хоризонт" (note "ориентировъчно") with a rough "~7 месеца" headline, a stacked bar by source (Обезщетение при съкращение, Обезщетение от НОИ, Спестявания), a legend with months per source and a card "Разходи: ... /мес. (по твоите данни)". The mod only adds and divides the numbers in the dossier; it never derives the НОИ benefit. The НОИ amount counts only when `noi-confirmed` is `да`; otherwise it is left out of the headline and the bar and shown as "за потвърждение в НОИ". With no monthly expenses, or no counted source, the pane says what is missing instead of showing a zero. Status-line segment `~7 месеца хоризонт`. `/runway` reopens the pane.
+- `mods/comeback/hooks/shared/ui.tsx`: `stackedMeter`, `legend` and the `violet` tone.
+- `mods/comeback/hooks/shared/dossier.ts`: `parseAmount`.
+- `agent/dossier-template.md`: a machine-read `Finances` section; `agent/orchestrator.md` keeps it current.
+
 ## [1.11.0] - 2026-11-07
 
 ### Added

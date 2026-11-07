@@ -11,7 +11,7 @@ import type { Elements, RenderChildren, RenderSurface } from 'claude-code'
 export type UiTable = Elements[RenderSurface]
 
 /** Meaning of a color. Maps to the mockup's --ok / --warn / --bad / --info. */
-export type Tone = 'neutral' | 'ok' | 'warn' | 'bad' | 'info'
+export type Tone = 'neutral' | 'ok' | 'warn' | 'bad' | 'info' | 'violet'
 
 export const COLORS = {
   text: '#e8e6e3',
@@ -21,6 +21,7 @@ export const COLORS = {
   warn: '#e0b04a',
   bad: '#e06c5a',
   info: '#6aa7e0',
+  violet: '#a58be0',
   track: '#2a2a2f',
   card: '#232327',
   line: '#2e2e33',
@@ -40,6 +41,8 @@ export function toneColor(tone: Tone): string {
       return COLORS.bad
     case 'info':
       return COLORS.info
+    case 'violet':
+      return COLORS.violet
     default:
       return COLORS.muted
   }
@@ -166,6 +169,87 @@ export function meter(
   return (
     <Box width={cells} height={1} backgroundColor={COLORS.track}>
       <Box width={filled} height={1} backgroundColor={color} />
+    </Box>
+  )
+}
+
+/**
+ * A horizontal bar split into side-by-side segments (fractions of the whole,
+ * summing to at most 1). Graphical surfaces grow each segment in (SMIL); the
+ * terminal draws a row of coloured boxes.
+ */
+export function stackedMeter(
+  t: UiTable,
+  opts: { segments: Array<{ fraction: number; tone: Tone }>; columns: number },
+) {
+  const { Box } = t
+  const parts = opts.segments.map(s => ({
+    fraction: Math.max(0, Math.min(1, s.fraction)),
+    color: toneColor(s.tone === 'neutral' ? 'ok' : s.tone),
+  }))
+
+  if ('Svg' in t) {
+    const { Svg } = t
+    let x = 0
+    let rects = ''
+    for (const p of parts) {
+      const w = Math.round(p.fraction * 1000) / 10
+      rects +=
+        `<rect x="${x}" width="${w}" height="8" fill="${p.color}">` +
+        `<animate attributeName="width" from="0" to="${w}" dur="1.2s" fill="freeze"/></rect>`
+      x += w
+    }
+    const source =
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 8" preserveAspectRatio="none">` +
+      `<rect width="100" height="8" rx="4" fill="${COLORS.track}"/>${rects}</svg>`
+
+    return (
+      <Svg
+        source={source}
+        alt={parts.map(p => `${Math.round(p.fraction * 100)}%`).join(' / ')}
+        width={Math.max(40, opts.columns * 8)}
+        height={8}
+        isInteractive
+      />
+    )
+  }
+
+  const cells = Math.max(4, opts.columns)
+  let used = 0
+  let sum = 0
+
+  return (
+    <Box width={cells} height={1} backgroundColor={COLORS.track}>
+      {parts.map(p => {
+        sum += p.fraction
+        const end = Math.round(sum * cells)
+        const width = Math.max(0, end - used)
+        used = end
+
+        return <Box width={width} height={1} backgroundColor={p.color} />
+      })}
+    </Box>
+  )
+}
+
+/** Rows of colour swatch, label and a right-aligned dim value (`2 м.`). */
+export function legend(
+  t: UiTable,
+  rows: Array<{ tone: Tone; label: string; value: string }>,
+) {
+  const { Box, Text } = t
+
+  return (
+    <Box flexDirection="column">
+      {rows.map(r => (
+        <Box justifyContent="space-between" gap={1}>
+          <Box gap={1}>
+            <Text color={toneColor(r.tone)}>■</Text>
+            <Text>{r.label}</Text>
+          </Box>
+          <Text dimColor>{r.value}</Text>
+        </Box>
+      ))}
     </Box>
   )
 }

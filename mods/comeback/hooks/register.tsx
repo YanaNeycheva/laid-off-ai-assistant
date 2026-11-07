@@ -4,6 +4,7 @@ import { registerDeadlines } from './features/deadlines'
 import { registerDocuments } from './features/documents'
 import { registerJourney } from './features/journey'
 import { registerPipeline } from './features/pipeline'
+import { registerRunway } from './features/runway'
 
 // One line per feature. Each feature reads its own data (a dossier section or
 // tracker.md) and draws with the pieces in ./shared/ui.
@@ -27,4 +28,5 @@ export const register: Register = on => {
   registerJourney(on)
   registerPipeline(on)
   registerDocuments(on)
+  registerRunway(on)
 }

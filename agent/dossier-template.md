@@ -83,5 +83,15 @@ One entry per deadline. Keys are fixed ASCII; values are free text, except `due`
   docs: {нужни документи, разделени със запетая}
   fact: {bureau-registration | noi-application | health-insurance}
 
+## Finances (machine-read by the comeback mod — orchestrator / bg-navigator fill)
+Numbers the person shared, for the Финансов хоризонт pane. One entry; keys are fixed ASCII. All amounts are plain numbers in `currency` (default EUR). The mod only adds and divides these — it NEVER derives the НОИ benefit from legal rules. The НОИ amount counts toward the headline figure only when `noi-confirmed` is `да`; otherwise it is shown as "за потвърждение в НОИ" and excluded.
+- savings: {сума — налични спестявания}
+  monthly-expenses: {сума — месечни разходи}
+  severance: {сума — еднократно обезщетение при съкращение (КТ)}
+  noi-monthly: {сума — месечно обезщетение от НОИ (оценка; потвърждава се в НОИ)}
+  noi-months: {брой месеци, за които НОИ плаща (по данни от НОИ)}
+  noi-confirmed: {да | не}
+  currency: {EUR}
+
 ## Log
 - {дата — какво се случи / кой subagent тичаше}

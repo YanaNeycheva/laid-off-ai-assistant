@@ -343,3 +343,37 @@ export function treeFs(files: Record<string, { text: string; mtimeMs: number }>)
     },
   }
 }
+
+// ---------------------------------------------------------------- runway
+
+/** A dossier with a `Finances` entry (fictional persona); `fields` are `key: value` lines. */
+export function financesDossier(fields: string[]) {
+  const [first, ...rest] = fields
+  const body = first === undefined ? '' : `- ${first}\n${rest.map(f => `  ${f}`).join('\n')}\n`
+
+  return personDossier(`## Finances (machine-read by the comeback mod — orchestrator / bg-navigator fill)
+Числата, които е споделила.
+${body}
+## Log
+- нищо
+`)
+}
+
+const EXPENSES = 'monthly-expenses: 1 000'
+const SAVINGS = 'savings: 3000'
+const SEVERANCE = 'severance: 2000'
+const NOI = ['noi-monthly: 500', 'noi-months: 4']
+
+/** (a) complete, НОИ confirmed: 7000 / 1000 = ~7 months, three segments. */
+export const FINANCES_CONFIRMED = financesDossier([SAVINGS, EXPENSES, SEVERANCE, ...NOI, 'noi-confirmed: да', 'currency: EUR'])
+
+/** (b) same amounts, НОИ not confirmed: 5000 / 1000 = ~5 months, two segments. */
+export const FINANCES_UNCONFIRMED = financesDossier([SAVINGS, EXPENSES, SEVERANCE, ...NOI, 'noi-confirmed: не'])
+
+/** (c) no monthly expenses. */
+export const FINANCES_NO_EXPENSES = financesDossier([SAVINGS, SEVERANCE, ...NOI, 'noi-confirmed: да'])
+
+/** (d) expenses but no source that counts (НОИ amount present, unconfirmed). */
+export const FINANCES_NO_SOURCE = financesDossier([EXPENSES, ...NOI, 'noi-confirmed: не'])
+
+export const financesTree = (text: string) => ({ 'Personal/p/dossier.md': { text, mtimeMs: 1 } })

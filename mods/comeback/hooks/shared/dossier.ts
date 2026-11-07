@@ -198,6 +198,31 @@ export async function loadDossierSection(
   return { dossier, body, entries: parseEntries(body) }
 }
 
+// ---------------------------------------------------------------- values
+
+/**
+ * A plain amount written by a person, STRICTLY: digits with optional space/dot/
+ * comma thousands groups, an optional 1-2 digit decimal part, and an optional
+ * trailing currency token (`€`, `EUR`, `лв`, `лв.`, `BGN`). `1200`, `1 200`,
+ * `1 500,50`, `1,200.50`, `1200 €`. Anything else (words, dates, ranges, extra
+ * numbers) is null, so a half-understood value is treated as absent rather
+ * than turned into a wrong number.
+ */
+export function parseAmount(value: string | undefined): number | null {
+  if (value === undefined) {
+    return null
+  }
+  const text = value.trim().toLowerCase().replace(/\s*(€|eur|лв\.?|bgn)$/, '')
+  const hit = /^(\d{1,3}(?:[ \u00a0.,]\d{3})+|\d+)(?:[.,](\d{1,2}))?$/.exec(text)
+  if (!hit || hit[1] === undefined) {
+    return null
+  }
+  const whole = hit[1].replace(/[ \u00a0.,]/g, '')
+  const n = Number(hit[2] === undefined ? whole : `${whole}.${hit[2]}`)
+
+  return Number.isFinite(n) ? n : null
+}
+
 // ---------------------------------------------------------------- dates
 
 /** `YYYY-MM-DD` and a real calendar day, else null. */

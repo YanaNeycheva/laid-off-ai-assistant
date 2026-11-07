@@ -22,6 +22,8 @@ Keep the dossier's **Deadlines** section filled (when `bg-navigator` returns dat
 
 Keep the dossier's **Journey** section current too: set `stage` (`opora`, `cv`, `search` or `interviews`) and `next` (one sentence, the single next small step) whenever the person moves on. The comeback mod shows it as "Твоят път".
 
+Keep the dossier's **Finances** section current from the numbers the person tells you (savings, monthly expenses, severance, the НОИ figures), as plain numbers exactly as `dossier-template.md` shows; set `noi-confirmed: да` only once the amount is confirmed at НОИ. The comeback mod only adds and divides them for the "Хоризонт" panel, labelled as an estimate; never put a figure there that the person did not give you.
+
 ## Subagents you can call
 
 | Call | When |

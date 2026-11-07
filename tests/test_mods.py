@@ -88,6 +88,21 @@ class TestDocumentsWiring(unittest.TestCase):
         self.assertIn("'documents'", _read("mods", "comeback", "hooks", "shared", "status.ts"))
 
 
+class TestRunwayWiring(unittest.TestCase):
+    def test_registered_once(self):
+        reg = _read("mods", "comeback", "hooks", "register.tsx")
+        self.assertEqual(reg.count("registerRunway(on)"), 1)
+
+    def test_feature_uses_shared_dossier_reader(self):
+        feature = _read("mods", "comeback", "hooks", "features", "runway.tsx")
+        self.assertIn("../shared/dossier", feature)
+        self.assertNotIn("fs.list", feature)
+        self.assertNotIn("on('prompt.submit'", feature)
+
+    def test_status_key_reserved(self):
+        self.assertIn("'runway'", _read("mods", "comeback", "hooks", "shared", "status.ts"))
+
+
 class TestDeadlinesWiring(unittest.TestCase):
     """The deadlines feature, the dossier template and bg-legal.md agree."""
 
