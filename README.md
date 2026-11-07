@@ -112,6 +112,8 @@ Optional Claude Code **mods** show the person's own situation beside the chat, r
 
 Nothing to install: open this repo in Claude Code (terminal or desktop app) and the plugin loads by itself, because Claude Code auto-loads a plugin placed in the project's `.claude/skills/` folder. Open the session **in the repo root** so `Personal/` resolves. This needs Claude Code 2.1.317 or newer.
 
+A project-scope plugin loads only from a **trusted** workspace. If the panes don't appear, run `claude plugin list` in the repo root. If it says a `.claude/skills/` directory "was skipped because this workspace was not trusted", run `claude` once in a terminal in the repo root, accept the trust dialog, then start a new session (or run `/reload-plugins`). On Windows the desktop app and the CLI can record trust under different spellings of the same path (`C:\…` and `C:/…`), so a folder the desktop app trusts can still be skipped by the plugin scan.
+
 How it is built, how to add a feature and how to test it are in [.claude/skills/comeback-mods/README.md](.claude/skills/comeback-mods/README.md).
 
 ## Status

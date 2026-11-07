@@ -7,6 +7,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.14.0] - 2026-11-07
+
+### Changed
+- **`/comeback` resumes the person instead of starting over.** A clone usually serves one
+  person, so the skill now looks for an existing case file first. It resumes the most recently
+  modified `Personal/*/dossier.md`, the same one the mods' panes show. If a `Personal/` folder
+  holds the person's files but no dossier yet, the skill adopts it. It creates a new folder
+  only when there is neither. In resume mode the opening greets the person by name, says where
+  things stand, and asks only what is new or still `неизвестно`. Updated `orchestrator.md`
+  (resume rule and a resume opening example) and `triage.md` to match.
+
+### Added
+- **`bg-legal.md`: health insurance after the layoff (НАП).** New section and verification-log
+  rows: who pays while on ПОБ, декларация обр. 7 and the 25th-of-next-month deadline, the 2026
+  minimum contribution, when rights are interrupted, and Christmas 2026 non-working days for
+  deadline counting. Unconfirmed points (deadline falling on a non-working day, the partial
+  month) are flagged ⚠️. Existing НОИ/Бюро rows re-verified on 2026-11-07.
+
+### Fixed
+- **Mods not loading: documented the cause.** The plugin scan skips the project-scope plugin
+  in `.claude/skills/comeback-mods/` when it sees the workspace as untrusted. On Windows the
+  desktop app and the CLI can record trust under different spellings of the same path
+  (`C:\…` vs `C:/…`). `README.md` now explains how to check this (`claude plugin list`) and
+  how to fix it (accept the trust dialog, then reload).
+
 ## [1.13.0] - 2026-11-07
 
 ### Changed

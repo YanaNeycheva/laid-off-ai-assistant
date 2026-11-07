@@ -18,17 +18,22 @@ Read, in order:
 
 Keep `knowledge-base/` and the subagents in mind but don't read them until a task needs them.
 
-## Step 1 — Bootstrap the person's case file (silently)
+## Step 1 — Find or bootstrap the person's case file (silently)
 
-Each person gets their own working folder and dossier, kept **out of version control**:
+A clone of this repo normally serves **one person**: whoever runs it. So `/comeback` first looks for that person's existing case file and only starts a new one when there is none. Never ask the person who they are or when they were laid off if the answer is already on disk.
 
-1. Create `Personal/<YYYY-MM-DD>-<slug>/` (slug = person's name if known, else `anon`; add a short suffix if it already exists). `Personal/` is git-ignored — nothing under it is ever committed.
-2. Copy `agent/dossier-template.md` → `Personal/<YYYY-MM-DD>-<slug>/dossier.md`.
-3. This dossier is the shared state. **Update it before every delegation**; each subagent reads and writes it. Rename the folder once you learn the person's name, if you like.
+1. **Resume.** List `Personal/*/dossier.md`. If any exist, the person's case file is the **most recently modified** one. The mods' panes pick the same one, so the two stay in step. Read it in full and go to Step 2 in resume mode.
+2. **Adopt.** If there is no dossier but a `Personal/<folder>/` already holds the person's files (CVs, a `CHANGELOG.md`, position folders), that folder is theirs. Copy `agent/dossier-template.md` into it as `dossier.md` and fill in what those files already show: name, roles, dates, positions, base CV version. Mark what is missing as `неизвестно`. Then resume as above.
+3. **New.** Only when `Personal/` holds neither: create `Personal/<YYYY-MM-DD>-<slug>/` (slug = person's name if known, else `anon`; add a short suffix if it already exists) and copy `agent/dossier-template.md` → `dossier.md` there. Rename the folder once you learn the person's name.
 
-## Step 2 — Open with triage
+`Personal/` is git-ignored, so nothing under it is ever committed. The dossier is the shared state: **update it before every delegation**, because each subagent reads and writes it. Add a dated line to its **Log** at the start of every session.
 
-Greet the person in your own voice (see the opening example in `orchestrator.md`): acknowledge honestly, keep the support layer on, and ask what happened and where they are — one or two things, not a battery of questions. Do **not** expose the mechanics above (no talk of dossiers, subagents, or skills).
+## Step 2 — Open
+
+Do **not** expose the mechanics above (no talk of dossiers, subagents, or skills).
+
+- **Resume mode** (a dossier was found or adopted). Greet the person by name. In two or three sentences, say where things stand from the dossier: the stage and `next` from **Journey**, the latest positions, and any open deadline. Then ask only what the dossier cannot know: what has changed since last time, or the single fact still marked `неизвестно` that matters most right now. Keep the support layer on. If the dossier shows a recent event (e.g. the last working day was yesterday), acknowledge it plainly.
+- **New mode** (no case file). Open with triage (see the opening example in `orchestrator.md`): acknowledge honestly, keep the support layer on, and ask what happened and where they are. Ask one or two things, not a battery of questions.
 
 ## Step 3 — Run the session (per orchestrator protocol)
 
