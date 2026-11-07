@@ -7,6 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.12.3] - 2026-11-07
+
+### Fixed
+- `knowledge-base/bg-legal.md` **Дневник на проверките** refreshed (checks dated 2026-10-11/12):
+  re-verified the core benefit facts (7-working-day Бюро registration, 3-month НОИ deadline,
+  12-of-18-months eligibility, 60% / 24-month calculation, min/max daily amounts under ЗБДОО 2026)
+  with corrected official URLs, and added rows for online registration (КЕП / ПИК на НОИ), place of
+  registration, repeat entitlement within 3 years, suspension/termination/restoration of the benefit
+  on new work (чл. 54г–54д КСО), civil-contract threshold, МРЗ 2026, and the one-off business-start
+  sum (чл. 47 ЗНЗ). Points the official sources do not state outright are marked ⚠️ непроверено
+  instead of being asserted.
+
 ## [1.12.2] - 2026-11-07
 
 ### Fixed
