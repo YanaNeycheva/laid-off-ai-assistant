@@ -19,12 +19,13 @@ test('a non-interactive (desktop/SDK) session opens all five panes and commands'
 
   await $.session.start({ cwd: '/', surface: null, isInteractive: false })
 
-  expect(commands).toEqual(['deadlines', 'journey', 'pipeline', 'documents', 'runway'])
+  expect(commands).toEqual(['deadlines', 'pipeline', 'documents', 'runway', 'journey'])
+  // The last pane opened is the active tab: Твоят път must be last.
   expect(opened).toEqual([
     'comeback-deadlines',
-    'comeback-journey',
     'comeback-pipeline',
     'comeback-documents',
     'comeback-runway',
+    'comeback-journey',
   ])
 })
