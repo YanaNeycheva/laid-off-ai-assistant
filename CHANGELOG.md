@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.16.3] - 2026-11-14
+
+### Added
+- **`bg-legal.md`: чл. 222, ал. 1 КТ compensation and how it meets ПОБ.** New and updated
+  verification-log rows: declaring the suspension/resumption of ПОБ to НОИ within 7 working days
+  on Приложение № 1 (НОИПОБ, ✅ rule; the start day for the чл. 222 case ⚠️), payment by the end
+  of the following month (чл. 228, ал. 3 КТ), the electronic трудов запис as an official
+  document (чл. 347а КТ), the 3-year limitation (чл. 358 КТ), the ДБТ registration certificate,
+  repaying wrongly paid ПОБ, and the open questions on proving "без работа" and on health
+  contributions for the чл. 222 month (⚠️).
+
 ## [1.16.2] - 2026-11-14
 
 ### Fixed
