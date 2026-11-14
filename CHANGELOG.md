@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.16.1] - 2026-11-14
+
+### Fixed
+- **Panes stayed empty for a dossier older than the mods.** A dossier created before the
+  machine-read sections existed has no `Journey`, `Deadlines` or `Finances`, so the panes beside
+  the chat had nothing to show. On resume, `/comeback` now adds any missing machine-read section
+  from `agent/dossier-template.md` and fills it from what the dossier already says (open
+  deadlines only, ISO dates).
+
 ## [1.16.0] - 2026-11-07
 
 ### Added
